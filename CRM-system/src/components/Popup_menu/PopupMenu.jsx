@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import "./PopupMenu.css";
 import { useDispatch, useSelector } from "react-redux";
-import { createCar } from "../../redux/Actions/cars";
+import { createCar, getCarsWithInfo, getMyCars } from "../../redux/Actions/cars";
 import { createOrder } from "../../redux/Actions/order";
 import { createPaymentNote } from "../../redux/Actions/paymentNotes";
 import {
@@ -66,13 +66,15 @@ import { createUsedPart } from "../../redux/Actions/usedParts";
 import { createWork } from "../../redux/Actions/works";
 import { createWorker } from "../../redux/Actions/workers";
 import { createWorkProposal } from "../../redux/Actions/workProposals";
+import { getStatuses } from "../../redux/Actions/statuses";
 
 function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const dispatch = useDispatch();
   const clientId = useSelector((state) => state.clients.myClient?.[0]?.id);
-  const workerId = useSelector((state) => state.workers.nyWorker?.[0]?.id);
+  const workerId = useSelector((state) => state.workers.myWorker?.[0]?.id);
 
   const allCars = useSelector((state) => state.cars.cars);
+  const allMyCars = useSelector((state) => state.cars.myCars);
   const allBills = useSelector((state) => state.bills.bills);
   const allOrders = useSelector((state) => state.orders.orders);
   const allStatuses = useSelector((state) => state.statuses.statuses);
@@ -100,33 +102,90 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   });
   const [formData, setFormData] = useState({});
 
-  // ... (useEffect для загрузки данных и обновления dynamicOptions, если необходимо)
-  // Пример:
   useEffect(() => {
     if (
       (isOpen && activeTable === "ordersClient") ||
       activeTable === "orders"
     ) {
-      // Загрузите список автомобилей и обновите setDynamicOptions({ ...prev, cars: fetchedCars })
       // statuses
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        if (activeTable === "ordersClient") {
+          const filteredStatuses = statuses.filter((status) => status.id === 8);
+
+          const mappedStatuses = filteredStatuses.map((status) => ({
+            value: status.id,
+            label: status.name,
+          }));
+
+          setOptions((prev) => ({
+            ...prev,
+            statuses: mappedStatuses,
+          }));
+        } else {
+          const filteredStatuses = statuses.filter(
+            (status) => status.id >= 4 && status.id <= 9
+          );
+
+          const mappedStatuses = filteredStatuses.map((status) => ({
+            value: status.id,
+            label: status.name,
+          }));
+
+          setOptions((prev) => ({
+            ...prev,
+            statuses: mappedStatuses,
+          }));
+        }
+      });
       // cars p
-    }
-    if (isOpen && activeTable === "journalClient") {
-      dispatch(getMyBills()).then(() => {
-        const bills = allBills || [];
+      if (activeTable === "ordersClient") {
+        dispatch(getMyCars(1)).then(() => {
+        const myCars = allMyCars || [];
 
-        const filteredBills = bills.filter((bill) => bill.amount > 100);
+        const filtredCars = myCars.filter((car) => car.ownerId === clientId);// позже сделать фильтрацию по тому в работе машина или нет 
 
-        const mappedBills = filteredBills.map((bill) => ({
-          value: bill.id,
-          label: `${bill.number} (${bill.amount} BYN)`,
+        const mappedCars = filtredCars.map((car) => ({
+          value: car.id,
+          label: `${car.brand} (${car.stateNumber})`
         }));
 
         setOptions((prev) => ({
           ...prev,
-          bills: mappedBills,
+          cars:mappedCars,
         }));
-      });
+      })
+      } else {
+        dispatch(getCarsWithInfo(1)).then(() => {
+          const cars = allCars || [];
+
+        // позже сделать фильтрацию по тому в работе машина или нет 
+
+        const mappedCars = cars.map((car) => ({
+          value: car.id,
+          label: `${car.brand} (${car.stateNumber})`
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          cars:mappedCars,
+        }));
+        })
+      }
+    }
+    if (isOpen && activeTable === "journalClient") {
+      // dispatch(getMyBills()).then(() => {
+      //   const bills = allBills || [];
+      //   const filteredBills = bills.filter((bill) => bill.amount > 100);
+      //   const mappedBills = filteredBills.map((bill) => ({
+      //     value: bill.id,
+      //     label: `${bill.number} (${bill.amount} BYN)`,
+      //   }));
+      //   setOptions((prev) => ({
+      //     ...prev,
+      //     bills: mappedBills,
+      //   }));
+      // });
     }
     if (isOpen && activeTable === "workers") {
       dispatch(getSpecializations(1)).then(() => {
@@ -249,7 +308,11 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   };
   const submitOrderForm = (e) => {
     e.preventDefault();
-    dispatch(createOrder(formData));
+    const fixedData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),
+    };
+    dispatch(createOrder(fixedData));
     onClose();
     setPage(1);
   };

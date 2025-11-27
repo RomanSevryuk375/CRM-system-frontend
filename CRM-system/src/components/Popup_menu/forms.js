@@ -37,8 +37,8 @@ export const getInitialFormState = (formType, clientId = null, workerId = null) 
       };
     case "order":
       return {
-        statusId: "",
-        carId: "",
+        statusId: 0,
+        carId: 0,
         date: "",
         priority: "",
       };

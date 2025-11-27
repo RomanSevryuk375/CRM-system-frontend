@@ -345,7 +345,7 @@ export const getWorkerFields = (options) => [
     name: "specializationId",
     label: "Специализация",
     type: "select",
-    options: options.specializations || [],
+    options: options.specializations,
     placeholder: "Выберите специализацию",
   },
   {
