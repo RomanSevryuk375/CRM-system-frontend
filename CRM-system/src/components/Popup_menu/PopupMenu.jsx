@@ -56,7 +56,10 @@ import { getInitialFormState } from "./forms";
 import { createBill } from "../../redux/Actions/bills";
 import { createClient } from "../../redux/Actions/clients";
 import { createExpense } from "../../redux/Actions/expenses";
-import { createSpecialization } from "../../redux/Actions/specialization";
+import {
+  createSpecialization,
+  getSpecializations,
+} from "../../redux/Actions/specialization";
 import { createSupplier } from "../../redux/Actions/suppliers";
 import { createTax } from "../../redux/Actions/taxes";
 import { createUsedPart } from "../../redux/Actions/usedParts";
@@ -81,10 +84,9 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const allSpecializations = useSelector(
     (state) => state.specializations.specializations
   );
-  
 
   const [categoryMenu, setCategoryMenu] = useState("car");
-  const [options, seOptions] = useState({
+  const [options, setOptions] = useState({
     cars: [],
     bills: [],
     orders: [],
@@ -101,34 +103,45 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   // ... (useEffect для загрузки данных и обновления dynamicOptions, если необходимо)
   // Пример:
   useEffect(() => {
-    if (isOpen && (activeTable === "ordersClient") ||  (activeTable === "orders")) {
+    if (
+      (isOpen && activeTable === "ordersClient") ||
+      activeTable === "orders"
+    ) {
       // Загрузите список автомобилей и обновите setDynamicOptions({ ...prev, cars: fetchedCars })
       // statuses
       // cars p
     }
     if (isOpen && activeTable === "journalClient") {
       dispatch(getMyBills()).then(() => {
-            // 2. получаем ДАННЫЕ из редакса
-            const bills = allBills || [];
+        const bills = allBills || [];
 
-            // 3. фильтруем по диапазону (пример)
-            const filteredBills = bills.filter(bill => bill.amount > 100); 
+        const filteredBills = bills.filter((bill) => bill.amount > 100);
 
-            // 4. преобразуем в нужный формат
-            const mappedBills = filteredBills.map(bill => ({
-                value: bill.id,
-                label: `${bill.number} (${bill.amount} BYN)`
-            }));
+        const mappedBills = filteredBills.map((bill) => ({
+          value: bill.id,
+          label: `${bill.number} (${bill.amount} BYN)`,
+        }));
 
-            // 5. сохраняем в options → попадёт в селекты
-            seOptions(prev => ({
-                ...prev,
-                bills: mappedBills
-            }));
-        });
+        setOptions((prev) => ({
+          ...prev,
+          bills: mappedBills,
+        }));
+      });
     }
     if (isOpen && activeTable === "workers") {
-      //specializations
+      dispatch(getSpecializations(1)).then(() => {
+        const specializations = allSpecializations || [];
+
+        const mappedSpecializations = specializations.map((specialization) => ({
+          value: specialization.id,
+          label: `${specialization.name}`,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          specializations: mappedSpecializations,
+        }));
+      });
     }
     if (isOpen && activeTable === "works") {
       //orders p
@@ -335,7 +348,7 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       currentModalTitle = MODAL_TITLE_CLIENT;
       currentToolbarContent = TOOLBAR_CONTENT_CLIENT;
       break;
-    case "wokers":
+    case "workers":
       currentFields = getWorkerFields(options);
       currentHandleSubmit = submitWorkerForm;
       currentModalTitle = MODAL_TITLE_WORKER;

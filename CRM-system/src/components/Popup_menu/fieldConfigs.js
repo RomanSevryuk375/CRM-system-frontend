@@ -338,15 +338,15 @@ export const getWorkerFields = (options) => [
     name: "roleId",
     label: "Роль",
     type: "select",
-    options: [{ value: "2", label: "Клиент" }],
+    options: [{ value: 3, label: "Работник" }],
     placeholder: "Выберите роль",
   },
   {
-    name: "roleId",
-    label: "Роль",
+    name: "specializationId",
+    label: "Специализация",
     type: "select",
     options: options.specializations || [],
-    placeholder: "Выберите роль",
+    placeholder: "Выберите специализацию",
   },
   {
     name: "name",
@@ -361,10 +361,10 @@ export const getWorkerFields = (options) => [
     placeholder: "Введите фамилию",
   },
   {
-    name: "yearOfManufacture",
-    label: "Год",
+    name: "hourlyRate",
+    label: "Поочасовая ставка",
     type: "number",
-    placeholder: "Введите год выпуска",
+    placeholder: "Введите почасовую ставку",
   },
   {
     name: "email",
@@ -373,7 +373,7 @@ export const getWorkerFields = (options) => [
     placeholder: "Введите почту",
   },
   {
-    name: "phomeNumber",
+    name: "phoneNumber",
     label: "Номер телефона",
     type: "text",
     placeholder: "Введите номер",

@@ -83,8 +83,8 @@ export const getInitialFormState = (formType, clientId = null, workerId = null) 
       };
     case "worker":
       return {
-        roleId: "",
-        specializationId: "",
+        roleId: 0,
+        specializationId: 0,
         name: "",
         surname: "",
         hourlyRate: 0,
