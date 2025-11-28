@@ -18,7 +18,7 @@ export const getBillFields = (options) => [
   },
   {
     name: "statusId",
-    label: "Счет",
+    label: "Статус",
     type: "select",
     options: options.statuses || [],
     placeholder: "Выберите статус",
@@ -191,7 +191,7 @@ export const getMyJournalFields = (options) => [
     name: "billId",
     label: "Счет",
     type: "select",
-    options: [{value: 2, label: "test"}], //options.bills || []
+    options: options.bills || [],
     placeholder: "Выберите счет",
   },
   {
@@ -203,9 +203,9 @@ export const getMyJournalFields = (options) => [
   },
   {
     name: "amount",
-    label: "Пробег",
+    label: "Сумма",
     type: "number",
-    placeholder: "Введите пробег",
+    placeholder: "Введите сумму",
   },
   {
     name: "date",
@@ -245,7 +245,7 @@ export const getTaxFields = () => [
   },
   {
     name: "type",
-    label: "Метод налога",
+    label: "Тип налога",
     type: "select",
     options: TAX_TYPE_OPTIONS,
     placeholder: "Выберите тип налога",
@@ -307,24 +307,24 @@ export const getWorkFields = (options) => [
   },
   {
     name: "jobId",
-    label: "Заказ-наряд",
+    label: "Работа",
     type: "select",
-    options: options.cars || [],
-    placeholder: "Выберите заказ-наряд",
+    options: options.works || [],
+    placeholder: "Выберите работу",
   },
   {
     name: "workerId",
-    label: "Заказ-наряд",
+    label: "Работник",
     type: "select",
     options: options.workers || [],
-    placeholder: "Выберите заказ-наряд",
+    placeholder: "Выберите работника",
   },
   {
     name: "statusId",
-    label: "Заказ-наряд",
+    label: "Статус",
     type: "select",
     options: options.statuses || [],
-    placeholder: "Выберите заказ-наряд",
+    placeholder: "Выберите статус",
   },
   {
     name: "timeSpent",

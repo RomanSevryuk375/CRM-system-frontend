@@ -1,8 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import "./PopupMenu.css";
 import { useDispatch, useSelector } from "react-redux";
-import { createCar, getCarsWithInfo, getMyCars } from "../../redux/Actions/cars";
-import { createOrder } from "../../redux/Actions/order";
+import {
+  createCar,
+  getCarsWithInfo,
+  getMyCars,
+} from "../../redux/Actions/cars";
+import {
+  createOrder,
+  getOrdersWithInfo,
+} from "../../redux/Actions/order";
 import { createPaymentNote } from "../../redux/Actions/paymentNotes";
 import {
   getBillFields,
@@ -53,18 +60,18 @@ import {
 } from "./labels";
 import { GenericPopupMenu } from "./generic";
 import { getInitialFormState } from "./forms";
-import { createBill } from "../../redux/Actions/bills";
+import { createBill, getBills, getMyBills } from "../../redux/Actions/bills";
 import { createClient } from "../../redux/Actions/clients";
 import { createExpense } from "../../redux/Actions/expenses";
 import {
   createSpecialization,
   getSpecializations,
 } from "../../redux/Actions/specialization";
-import { createSupplier } from "../../redux/Actions/suppliers";
-import { createTax } from "../../redux/Actions/taxes";
-import { createUsedPart } from "../../redux/Actions/usedParts";
-import { createWork } from "../../redux/Actions/works";
-import { createWorker } from "../../redux/Actions/workers";
+import { createSupplier, getSuppliers } from "../../redux/Actions/suppliers";
+import { createTax, getTaxes } from "../../redux/Actions/taxes";
+import { createUsedPart, getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
+import { createWork, getWorksWithInfo } from "../../redux/Actions/works";
+import { createWorker, getWorkerWithInfo } from "../../redux/Actions/workers";
 import { createWorkProposal } from "../../redux/Actions/workProposals";
 import { getStatuses } from "../../redux/Actions/statuses";
 
@@ -79,9 +86,9 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const allOrders = useSelector((state) => state.orders.orders);
   const allStatuses = useSelector((state) => state.statuses.statuses);
   const allTaxes = useSelector((state) => state.taxes.taxes);
-  const allUsedParts = useSelector((state) => state.usedParts.usedParts);
+  const allUsedParts = useSelector((state) => state.usedParts.usedPartsWithInfo);
   const allSuppliers = useSelector((state) => state.suppliers.suppliers);
-  const allWorkers = useSelector((state) => state.workers.workers);
+  const allWorkers = useSelector((state) => state.workers.workersWithInfo);
   const allWorks = useSelector((state) => state.works.works);
   const allSpecializations = useSelector(
     (state) => state.specializations.specializations
@@ -105,9 +112,8 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   useEffect(() => {
     if (
       (isOpen && activeTable === "ordersClient") ||
-      activeTable === "orders"
+      (isOpen && activeTable === "orders")
     ) {
-      // statuses
       dispatch(getStatuses()).then(() => {
         const statuses = allStatuses || [];
         if (activeTable === "ordersClient") {
@@ -138,54 +144,74 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
           }));
         }
       });
-      // cars p
       if (activeTable === "ordersClient") {
         dispatch(getMyCars(1)).then(() => {
-        const myCars = allMyCars || [];
+          const myCars = allMyCars || [];
 
-        const filtredCars = myCars.filter((car) => car.ownerId === clientId);// позже сделать фильтрацию по тому в работе машина или нет 
+          const filtredCars = myCars.filter((car) => car.ownerId === clientId); // позже сделать фильтрацию по тому в работе машина или нет
 
-        const mappedCars = filtredCars.map((car) => ({
-          value: car.id,
-          label: `${car.brand} (${car.stateNumber})`
-        }));
+          const mappedCars = filtredCars.map((car) => ({
+            value: car.id,
+            label: `${car.brand} (${car.stateNumber})`,
+          }));
 
-        setOptions((prev) => ({
-          ...prev,
-          cars:mappedCars,
-        }));
-      })
+          setOptions((prev) => ({
+            ...prev,
+            cars: mappedCars,
+          }));
+        });
       } else {
         dispatch(getCarsWithInfo(1)).then(() => {
           const cars = allCars || [];
 
-        // позже сделать фильтрацию по тому в работе машина или нет 
+          // позже сделать фильтрацию по тому в работе машина или нет
 
-        const mappedCars = cars.map((car) => ({
-          value: car.id,
-          label: `${car.brand} (${car.stateNumber})`
-        }));
+          const mappedCars = cars.map((car) => ({
+            value: car.id,
+            label: `${car.brand} (${car.stateNumber})`,
+          }));
 
-        setOptions((prev) => ({
-          ...prev,
-          cars:mappedCars,
-        }));
-        })
+          setOptions((prev) => ({
+            ...prev,
+            cars: mappedCars,
+          }));
+        });
       }
     }
-    if (isOpen && activeTable === "journalClient") {
-      // dispatch(getMyBills()).then(() => {
-      //   const bills = allBills || [];
-      //   const filteredBills = bills.filter((bill) => bill.amount > 100);
-      //   const mappedBills = filteredBills.map((bill) => ({
-      //     value: bill.id,
-      //     label: `${bill.number} (${bill.amount} BYN)`,
-      //   }));
-      //   setOptions((prev) => ({
-      //     ...prev,
-      //     bills: mappedBills,
-      //   }));
-      // });
+    if (
+      (isOpen && activeTable === "journalClient") ||
+      (isOpen && activeTable === "journal")
+    ) {
+      if (activeTable === "journalClient") {
+        dispatch(getMyBills(1)).then(() => {
+          const bills = allBills || [];
+
+          const mappedBills = bills.map((bill) => ({
+            value: bill.id,
+            label: `${bill.date} (${bill.amount} BYN)`,
+          }));
+          setOptions((prev) => ({
+            ...prev,
+            bills: mappedBills,
+          }));
+        });
+      } else {
+        dispatch(getBills(1)).then(() => {
+          const bills = allBills || [];
+
+          const filtredBills = bills.filter((bill) => bill.statusId === 1);
+
+          const mappedBills = filtredBills.map((bill) => ({
+            value: bill.id,
+            label: `${bill.date} (${bill.amount} BYN)`,
+          }));
+
+          setOptions((prev) => ({
+            ...prev,
+            bills: mappedBills,
+          }));
+        });
+      }
     }
     if (isOpen && activeTable === "workers") {
       dispatch(getSpecializations(1)).then(() => {
@@ -203,21 +229,153 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       });
     }
     if (isOpen && activeTable === "works") {
-      //orders p
-      //workers
-      //sattuses
+      dispatch(getOrdersWithInfo(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+      });
+
+      dispatch(getWorkerWithInfo(1)).then(() => {
+        const workers = allWorkers || [];
+
+        const mappedWorkers = workers.map((worker) => ({
+          value: worker.id,
+          label: worker.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          workers: mappedWorkers,
+        }));
+      });
+
+      // dispatch(getWorksWithInfo(1)).then(() => {
+      //   const works = allWorks || [];
+        
+      //   const mappedWorks = works.map((work) => ({
+      //     value: work.id,
+      //     label: work.jobName,
+      //   }));
+
+      //   setOptions((prev) => ({
+      //     ...prev,
+      //     works: mappedWorks,
+      //   }));
+      // });
+
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        const filteredStatuses = statuses.filter((status) => status.id === 8);
+
+        const mappedStatuses = filteredStatuses.map((status) => ({
+          value: status.id,
+          label: status.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          statuses: mappedStatuses,
+        }));
+      });
     }
     if (isOpen && activeTable === "parts") {
-      //orders p
-      //suppliers p
+      dispatch(getOrdersWithInfo(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+      });
+
+      dispatch(getSuppliers(1)).then(() => {
+        const suppliers = allSuppliers || [];
+
+        const mappedSuppliers = suppliers.map((supplier) => ({
+          value: supplier.id,
+          label: supplier.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          suppliers: mappedSuppliers,
+        }));
+      });
     }
     if (isOpen && activeTable === "bills") {
-      //orders p
-      //statuses //мб сделать просто перечислением
+      dispatch(getOrdersWithInfo(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+      });
+
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        const filteredStatuses = statuses.filter(
+          (status) => status.id >= 1 && status.id <= 3
+        );
+
+        const mappedStatuses = filteredStatuses.map((status) => ({
+          value: status.id,
+          label: status.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          statuses: mappedStatuses,
+        }));
+      });
     }
     if (isOpen && activeTable === "expenses") {
       //taxes
+      dispatch(getTaxes(1)).then(() => {
+        const taxes = allTaxes || [];
+
+        const mappedTaxes = taxes.map((tax) => ({
+          value: tax.id,
+          label: tax.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          taxes: mappedTaxes,
+        }));
+      });
       //usedParts p
+      dispatch(getUsedPartsWithInfo(1)).then(() => {
+        const usedParts = allUsedParts || [];
+
+        const mappedUsedParts = usedParts.map((usedPart) => ({
+          value: usedPart.id,
+          label: usedPart.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          usedParts: mappedUsedParts,
+        }));
+      });
     }
   }, [isOpen, activeTable]);
 
@@ -447,7 +605,7 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       currentModalTitle = MODAL_TITLE_TAX;
       currentToolbarContent = TOOLBAR_CONTENT_TAX;
       break;
-    case "taxes":
+    case "expenses":
       currentFields = getExpenseFields(options);
       currentHandleSubmit = submitExpensesForm;
       currentModalTitle = MODAL_TITLE_EXPENSE;

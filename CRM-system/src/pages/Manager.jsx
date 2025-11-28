@@ -35,7 +35,6 @@ function Manager() {
   const [activeTable, setActiveTable] = useState("main");
   return (
     <>
-      <div>
         <Header
           activeFoolMenu={activeFoolMenu}
           setActiveFoolMenu={setActiveFoolMenu}
@@ -52,14 +51,16 @@ function Manager() {
           setActiveExitMenu={setActiveExitMenu}
           activeExitMenu={activeExitMenu}
         />
-        <Table activeTable={activeTable} activeFoolMenu={activeFoolMenu} />
+        <Table 
+          activeTable={activeTable} 
+          activeFoolMenu={activeFoolMenu} 
+        />
         <Toolbar
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
           // setPage={setPage}
         />
         <Footer />
-      </div>
     </>
   );
 }
