@@ -21,7 +21,7 @@ export const suppliersReducer = (state = initialState, action) => {
         case GET_SUPPLIERS_SUCCESS:
             return {
                 ...state,
-                suppliers: action.payload,
+                suppliers: action.payload.data,
                 isSuppliersLoading: false,
             };
 

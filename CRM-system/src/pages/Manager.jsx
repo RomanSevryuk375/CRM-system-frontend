@@ -11,22 +11,25 @@ import Home from "../../src/assets/svg/Home.svg";
 import Workers from "../../src/assets/svg/Workers.svg";
 import Works from "../../src/assets/svg/Works.svg";
 import Task from "../../src/assets/svg/Task.svg";
+import Bills from "../../src/assets/svg/Bills.svg";
+import Journal from "../../src/assets/svg/Journal.svg";
+import Tax from "../../src/assets/svg/Nalogi.svg";
 
 const navButtonsConfig = [
   { text: "Главная", value: "main", icon: Home },
   { text: "Заказ-наряды", value: "orders", icon: Task },
   { text: "Клиенты", value: "clients", icon: Clients },
   { text: "Работники", value: "workers", icon: Workers },
-  { text: "Каталог работ", value: "works", icon: Works },
+  { text: "Предложения", value: "propossals", icon: Journal},
+  { text: "Каталог работ", value: "workTypes", icon: Journal},
+  { text: "Спечиализации", value: "specializations", icon: Journal}, // временно 
+  { text: "Работы", value: "works", icon: Works },
   { text: "Запчасти", value: "parts", icon: Details },
-  { text: "Счета", value: "bills", icon: Task }, // Временно
-  { text: "Журнал оплат", value: "journal", icon: Clients }, // Временно
-  { text: "Налоги", value: "taxes", icon: Workers }, // Временно
-  { text: "Расходы", value: "expenses", icon: Details }, // Временно
-  //
-  //
-  //
-  //
+  { text: "Счета", value: "bills", icon: Bills }, 
+  { text: "Журнал оплат", value: "journal", icon: Journal },
+  { text: "Налоги", value: "taxes", icon: Tax }, 
+  { text: "Расходы", value: "expenses", icon: Journal }, // Временно
+  { text: "Поставщики", value: "suppliers", icon: Journal},
 ];
 
 function Manager() {

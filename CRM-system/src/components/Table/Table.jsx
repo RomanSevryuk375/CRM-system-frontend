@@ -19,6 +19,10 @@ import { getWorkerWithInfo } from '../../redux/Actions/workers';
 import Edit from '../../assets/svg/Edit.svg';
 import Sort from '../../assets/svg/Sort.svg';
 import './Table.css';
+import { getWorkProposalWithInfo } from '../../redux/Actions/workProposals';
+import { getSpecializations } from '../../redux/Actions/specialization';
+import { getSuppliers } from '../../redux/Actions/suppliers';
+import { getWorksWithInfo } from '../../redux/Actions/works';
 
 const columnsParts = ['id', 'orderId', 'supplierName', 'name', 'article', 'quantity', 'unitPrice'];
 const headTextParts = ['№', '№ заказ-наряда', 'Поставщик', 'Наименование детали', 'Артикул', 'Количество', 'Цена за еденицу'];
@@ -38,8 +42,20 @@ const headTextExpenses = ['№', 'Дата', 'Категория', '№ нало
 const columnsOreders = ['id', 'statusName', 'carInfo', 'date', 'priority'];
 const headTextOrders = ['№', 'Статус', 'Автомобиль', 'Дата', 'Приоритет'];
 
-const columnsWorks = ['id', 'title', 'category', 'description', 'standardTime'];
-const headTextWorks = ['№', 'Название работы', 'Категория', 'Описание', 'Нормативное время'];
+const columnsCatalogOfWorks = ['id', 'title', 'category', 'description', 'standardTime'];
+const headTextCatalogOftWorks = ['№', 'Название работы', 'Категория', 'Описание', 'Нормативное время'];
+
+const columnsWorks = ['id', 'orderId', 'jobName', 'workerInfo', 'timeSpent', 'statusName'];
+const headTextWorks = ['№','№ Заказа','Работа','Работник','Затраченное время','Название статуса'];
+
+const columnsSpecializations = ['id', 'name'];
+const headTextSpecializations = ['№','Название'];
+
+const columnsSuppliers = ['id', 'name', 'contacts'];
+const headTextSuppliers = ['№','Название','Контакты'];
+
+const columnsWorkProposals = ['id','orderId','workName','byWorker','statusName','decisionStatusName','date'];
+const headTextWorkProposals = ['№','№ Заказа','Работа','Работник','Статус','Решение', 'Дата'];
 
 const columnsWorkers = ['id', 'userId', 'specializationName', 'name', 'surname', 'hourlyRate', 'phoneNumber', 'email'];
 const headTextWorkers = ['№', '№ пользователя', 'Специализация', 'Имя', 'Фамилия', 'Почасовая ставка', 'Номер телефона', 'Почта'];
@@ -128,6 +144,10 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
   const ordersClient = useSelector(state => state.orders.myOrders);
   const clients = useSelector(state => state.clients.clients);
   const workers = useSelector(state => state.workers.workersWithInfo);
+  const specializations = useSelector(state => state.specializations.specializations);
+  const supplier = useSelector(state => state.suppliers.suppliers);
+  const works = useSelector(state => state.works.worksWithInfo);
+  const workProposals = useSelector(state => state.workProposals.workProposalsWithInfo);
   const parts = useSelector(state => state.usedParts.usedPartsWithInfo);
   const bills = useSelector(state => state.bills.bills);
   const billsClient = useSelector(state => state.bills.myBills);
@@ -142,6 +162,10 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
   const totalOrdersClient = useSelector(state => state.orders.myOrdersTotal);
   const totalClients = useSelector(state => state.clients.totalClients);
   const totalWorkers = useSelector(state => state.workers.workersWithInfoTotal);
+  const totalSpecializations = useSelector(state => state.specializations.specializationsTotal);
+  const totalSuppliers = useSelector(state => state.suppliers.totalSuppliers);
+  const totalWorks = useSelector(state => state.works.worksWithInfoTotal);
+  const totalWorkProposals = useSelector(state => state.workProposals.workProposalsWithInfoTotal);
   const totalParts = useSelector(state => state.usedParts.usedPartsWithInfoTotal);
   const totalBills = useSelector(state => state.bills.billsTotal);
   const totalBillsClient = useSelector(state => state.bills.myBillsTotal);
@@ -179,55 +203,54 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
       case "orders":
         action = getOrdersWithInfo(page);
         break;
-      
       case "ordersClient":
         action = getMyOrders(page);
         break;
-
       case "clients":
         action = getClients(page);
         break;
-
       case "workers":
         action = getWorkerWithInfo(page);
         break;
-
       case "works":
-        action = getCatalogOfWorks(page);
+        action = getWorksWithInfo(page);
         break;
-
       case "parts":
         action = getUsedPartsWithInfo(page);
         break;
-
       case "bills":
         action = getBills(page);
         break;
-
       case "billsClient":
         action = getMyBills(page);
         break;
-
       case "journal":
         action = getPaymentNotes(page);
         break;
-
       case "journalClient":
         action = getMyPaymentNotes(page);
         break;
-
       case "historyClient":
         action = getMyRepairNotes(page);
         break;
-
       case "taxes":
         action = getTaxes(page);
         break;
-
       case "expenses":
         action = getExpensesWithInwo(page);
         break;
-
+      case "propossals":
+        action = getWorkProposalWithInfo(page);
+        break;
+      case "workTypes":
+        action = getCatalogOfWorks(page);
+        break;
+      case "specializations":
+        action = getSpecializations(page);
+        break;
+      case "suppliers": 
+        action = getSuppliers(page);
+        break;
       default:
         isLoadingRef.current = false;
         return;
@@ -260,7 +283,7 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
     }
 
     if (activeTable === "works") {
-      if (catalogOfWorks.length >= totalCatalog) return;
+      if (works.length >= totalWorks) return;
     }
 
     if (activeTable === "parts") {
@@ -295,6 +318,22 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
       if (expenses.length >= totalExpenses) return;
     }
 
+    if (activeTable === "propossals") {
+      if (workProposals.length >= totalWorkProposals) return;
+    }
+
+    if (activeTable === "workTypes") {
+      if (catalogOfWorks.length >= totalCatalog) return;
+    }
+
+    if (activeTable === "specializations") {
+      if (specializations.length >= totalSpecializations) return;
+    }
+
+    if (activeTable === "suppliers") {
+      if (supplier.length >= totalSuppliers) return;
+    }
+
     setPage(prev => prev + 1);
   };
 
@@ -303,7 +342,7 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
   const hasMoreItemsForOrdersClient = ordersClient.length < totalOrdersClient;
   const hasMoreItemsForClients = clients.length < totalClients;
   const hasMoreItemsForWorkers = workers.length < totalWorkers;
-  const hasMoreItemsForCatalog = catalogOfWorks.length < totalCatalog;
+  const hasMoreItemsForWorks = works.length < totalWorks;
   const hasMoreItemsForParts = parts.length < totalParts;
   const hasMoreItemsForBills = bills.length < totalBills;
   const hasMoreItemsForBillsClient = billsClient.length < totalBillsClient;
@@ -312,6 +351,10 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
   const hasMoreItemsForRepairNotesClient = repairNotesClient.length < totalRepairNotesClient;
   const hasMoreItemsForTaxes = taxes.length < totalTaxes;
   const hasMoreItemsForExpeses = expenses.length < totalExpenses;
+  const hasMoreItemsForProposals = workProposals.length < totalWorkProposals;
+  const hasMoreItemsForWorkTypes = catalogOfWorks.length < totalCatalog;
+  const hasMoreItemsForSuppliers = supplier.length < totalSuppliers;
+  const hasMoreItemsForSpecializations = specializations.length < totalSpecializations;
 
   switch (activeTable) {
     case 'main':
@@ -465,13 +508,13 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
         <>
           <GenericTable
             headText={headTextWorks}
-            bodyText={catalogOfWorks || []}
+            bodyText={works || []}
             columns={columnsWorks}
             activeFoolMenu={activeFoolMenu}
             activeDetailing={activeDetailing}
             setActiveDetailing={setActiveDetailing}
             nextHandler={nextHandler}
-            hasMore={hasMoreItemsForCatalog}
+            hasMore={hasMoreItemsForWorks}
           />
           <Detailing
             activeDetailing={activeDetailing}
@@ -544,6 +587,78 @@ function Table({ activeTable, activeFoolMenu, isMod, setIsMod,
             setActiveDetailing={setActiveDetailing}
             nextHandler={nextHandler}
             hasMore={hasMoreItemsForTaxes}
+          />
+          <Detailing
+            activeDetailing={activeDetailing}
+            activeFoolMenu={activeFoolMenu} />
+        </>
+      );
+    case 'propossals':
+      return (
+        <>
+          <GenericTable
+            headText={headTextWorkProposals}
+            bodyText={workProposals || []}
+            columns={columnsWorkProposals}
+            activeFoolMenu={activeFoolMenu}
+            activeDetailing={activeDetailing}
+            setActiveDetailing={setActiveDetailing}
+            nextHandler={nextHandler}
+            hasMore={hasMoreItemsForProposals}
+          />
+          <Detailing
+            activeDetailing={activeDetailing}
+            activeFoolMenu={activeFoolMenu} />
+        </>
+      );
+    case 'workTypes':
+      return (
+        <>
+          <GenericTable
+            headText={headTextCatalogOftWorks}
+            bodyText={catalogOfWorks || []}
+            columns={columnsCatalogOfWorks}
+            activeFoolMenu={activeFoolMenu}
+            activeDetailing={activeDetailing}
+            setActiveDetailing={setActiveDetailing}
+            nextHandler={nextHandler}
+            hasMore={hasMoreItemsForWorkTypes}
+          />
+          <Detailing
+            activeDetailing={activeDetailing}
+            activeFoolMenu={activeFoolMenu} />
+        </>
+      );
+    case 'specializations':
+      return (
+        <>
+          <GenericTable
+            headText={headTextSpecializations}
+            bodyText={specializations || []}
+            columns={columnsSpecializations}
+            activeFoolMenu={activeFoolMenu}
+            activeDetailing={activeDetailing}
+            setActiveDetailing={setActiveDetailing}
+            nextHandler={nextHandler}
+            hasMore={hasMoreItemsForSpecializations}
+          />
+          <Detailing
+            activeDetailing={activeDetailing}
+            activeFoolMenu={activeFoolMenu} />
+        </>
+      );
+    case 'suppliers':
+      return (
+        <>
+          <GenericTable
+            headText={headTextSuppliers}
+            bodyText={supplier || []}
+            columns={columnsSuppliers}
+            activeFoolMenu={activeFoolMenu}
+            activeDetailing={activeDetailing}
+            setActiveDetailing={setActiveDetailing}
+            nextHandler={nextHandler}
+            hasMore={hasMoreItemsForSuppliers}
           />
           <Detailing
             activeDetailing={activeDetailing}

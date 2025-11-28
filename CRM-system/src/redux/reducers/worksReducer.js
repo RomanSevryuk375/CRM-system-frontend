@@ -43,7 +43,7 @@ export default function worksReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                worksWithInfo: action.payload,
+                worksWithInfo: action.payload.data,
             };
 
         case GET_WORKS_WITH_INFO_FAILED:

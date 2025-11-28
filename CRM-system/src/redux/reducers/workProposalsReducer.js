@@ -46,7 +46,7 @@ export default function workProposalsReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                workProposalsWithInfo: action.payload,
+                workProposalsWithInfo: action.payload.data
             };
 
         case GET_WORK_PROPOSAL_WITH_INFO_FAILED:
@@ -62,7 +62,7 @@ export default function workProposalsReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                workProposalsInWork: action.payload,
+                workProposalsInWork: action.payload.data,
             };
 
         case GET_WORK_PROPOSAL_IN_WORK_FAILED:

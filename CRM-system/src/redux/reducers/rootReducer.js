@@ -15,7 +15,7 @@ import { taxesReducer } from "./taxesReducer";
 import { usedPartsReducer } from "./usedPartsReducer";
 import worksReducer from "./worksReducer";
 import { workersReducer } from "./workersReducer";
-import workProposalReducer from "./workProposalsReducer";
+import workProposalsReducer from "./workProposalsReducer";
 
 export const rootReducer = combineReducers({
     bills: billsReducer,
@@ -33,6 +33,6 @@ export const rootReducer = combineReducers({
     usedParts: usedPartsReducer,
     users: usersReducer,
     workers: workersReducer,
-    workProposal: workProposalReducer,
+    workProposals: workProposalsReducer,
     works: worksReducer,
 });
