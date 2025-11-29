@@ -6,6 +6,7 @@ export const getRepairNotesWithInfo = (config) => makeRequest({
     method: "GET",
     url: `${URL}/with-info`,
     ...config,
+    withCredentials: true,
 });
 
 export const getMyRepairNotes = (config) => makeRequest({
@@ -17,5 +18,6 @@ export const getMyRepairNotes = (config) => makeRequest({
 
 export const getRepairNotesInWork = (config) => makeRequest({
     method: "GET",
-    url: `${URL}/InWork`
+    url: `${URL}/InWork`,
+    withCredentials: true,
 });

@@ -27,7 +27,6 @@ function PersonalPage() {
     const [page, setPage] = useState(1);
     return (
         <>
-            <div>
                 <Header
                     activeExitMenu={activeExitMenu}
                     setActiveExitMenu={setActiveExitMenu}
@@ -55,7 +54,6 @@ function PersonalPage() {
                     activeExitMenu={activeExitMenu}
                     setActiveExitMenu={setActiveExitMenu}
                 />
-            </div>
         </>
     )
 }

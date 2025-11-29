@@ -7,6 +7,7 @@ export const loginUser = (config) => makeRequest({
     url: `${URL}/login`,
     withCredentials: true,
     ...config,
+    withCredentials: true,
 });
 
 export const logoutUser = (config) => makeRequest({
@@ -14,6 +15,7 @@ export const logoutUser = (config) => makeRequest({
     url: `${URL}/logout`,
     withCredentials: true,
     ...config,
+    withCredentials: true,
 });
 
 export const createUser = (config) => makeRequest({
@@ -21,6 +23,7 @@ export const createUser = (config) => makeRequest({
     url: URL,
     withCredentials: true,
     ...config,
+    withCredentials: true,
 });
 
 export const deleteUser = (id, config) => makeRequest({
@@ -28,4 +31,5 @@ export const deleteUser = (id, config) => makeRequest({
     url: `${URL}/${id}`,
     withCredentials: true,
     ...config,
+    withCredentials: true,
 });

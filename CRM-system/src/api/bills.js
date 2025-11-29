@@ -6,6 +6,7 @@ export const getBills = (config) => makeRequest({
     method: "GET",
     url: URL,
     ...config,
+    withCredentials: true,
 });
 
 export const getMyBills = (config) => makeRequest({
@@ -19,5 +20,6 @@ export const createBill = (data) => makeRequest({
     method: "POST",
     url: URL,
     data,
+    withCredentials: true,
 });
 

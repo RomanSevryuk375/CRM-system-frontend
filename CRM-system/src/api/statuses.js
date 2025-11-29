@@ -6,4 +6,5 @@ export const getStatuses = (config) => makeRequest({
     method: "GET",
     url: URL,
     ...config,
+    withCredentials: true,
 });

@@ -1,8 +1,9 @@
 .ppfooter {
-    position: relative;
-    width: 100%;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: calc(100vw - 54px);
     height: 50px;
-    border-radius: 4px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
