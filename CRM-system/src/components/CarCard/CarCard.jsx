@@ -191,10 +191,6 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                     </div>
                   </div>
                 </div>
-                <div>
-                  <div></div>
-                  <div></div>
-                </div>
               </div>
             )}
           </div>
