@@ -226,11 +226,11 @@ const headTextBillsClient = [
 const columnsJournalClient = ["id", "billId", "date", "amount", "method"];
 const headTextJournalClient = ["№", "№ Счёта", "Дата плтежа", "Сумма", "Метод"];
 
-const headTextWorksForCar = ["id", "name", "status"];
-const columnsWorksForCar = ["#", "Название рабботы", "Статус"];
+const columnsWorksForCar = ["id", "name", "status"];
+const headTextWorksForCar = ["№", "Название рабботы", "Статус"];
 
-const headTextProposalsForCar = ["id", "name", "date"];
-const columnsProposalsForCar = ["№", "Название работы", "Дата"];
+const columnsProposalsForCar = ["id", "name", "date"];
+const headTextProposalsForCar = ["№", "Название работы", "Дата"];
 
 const GenericTable = ({
   headText,
@@ -251,7 +251,7 @@ const GenericTable = ({
     >
       <div
         id="container"
-        className={`table-container ${activeFoolMenu ? "enable" : "disable"}`}
+        className="table-container"
       >
         <table className="tableMarking">
           <thead className="thead">

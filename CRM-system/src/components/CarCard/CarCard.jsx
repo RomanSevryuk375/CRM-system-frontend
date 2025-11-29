@@ -45,6 +45,7 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
   if (!isLoggedIn) return null;
   return (
     <InfiniteScroll
+      className="CCcustom-scroll"
       dataLength={myCars.length}
       next={nextHandler}
       hasMore={hasMore}
@@ -137,20 +138,59 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
             {expandedCardId === item.id && (
               <div className="car-details-expanded">
                 <div>
-                  <h1></h1>
+                  <h1 className="CCexpanded-table-label">Работы</h1>
                   <div className="CCtable">
-                    {/* <Table
-                    activeTable={"worksForCar"}
-                  /> */}
+                    <Table activeTable={"worksForCar"} />
                   </div>
-                  <h1></h1>
+                  <h1 className="CCexpanded-table-label">Предложения</h1>
                   <div className="CCtable">
-                    <Table
-                    activeTable={"proposalsForCar"}
-                  />
+                    <Table activeTable={"proposalsForCar"} />
                   </div>
                 </div>
-
+                <div className="CCexpanded-info">
+                  <div className="CCexpanded-block-info">
+                    <h1 className="CCexpanded-info-label">Финансы</h1>
+                    <div>
+                      <p className="CCexpanded-info-details">Общая сумма</p>
+                      <h6 className="CCexpanded-info-info">1200 BYN</h6>
+                      <button className="car-buttons-button">Оплатить</button>
+                    </div>
+                  </div>
+                  <div className="CCexpanded-block-info">
+                    <h1 className="CCexpanded-info-label">Контакты</h1>
+                    <div>
+                      <p className="CCexpanded-info-details">
+                        Телефон менеджера
+                      </p>
+                      <h6 className="CCexpanded-info-info">80447591940</h6>
+                      <p className="CCexpanded-info-details">
+                        Телефон закрепленного мастера
+                      </p>
+                      <h6 className="CCexpanded-info-info">80447591940</h6>
+                    </div>
+                  </div>
+                  <div className="CCexpanded-block-info">
+                    <h1 className="CCexpanded-info-label">Решение</h1>
+                    <div>
+                      <p className="CCexpanded-info-details">
+                        Выбранное предлоение
+                      </p>
+                      <h6 className="CCexpanded-info-info">2</h6>
+                      <div className="CCexpanded-prop-buttons">
+                        <div>
+                          <button className="car-buttons-button">
+                            Принять
+                          </button>
+                        </div>
+                        <div>
+                          <button className="car-buttons-button">
+                            Отклонить
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <div></div>
                   <div></div>

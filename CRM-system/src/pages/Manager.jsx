@@ -20,16 +20,16 @@ const navButtonsConfig = [
   { text: "Заказ-наряды", value: "orders", icon: Task },
   { text: "Клиенты", value: "clients", icon: Clients },
   { text: "Работники", value: "workers", icon: Workers },
-  { text: "Предложения", value: "propossals", icon: Journal},
-  { text: "Каталог работ", value: "workTypes", icon: Journal},
-  { text: "Спечиализации", value: "specializations", icon: Journal}, // временно 
+  { text: "Предложения", value: "propossals", icon: Journal },
+  { text: "Каталог работ", value: "workTypes", icon: Journal },
+  { text: "Спечиализации", value: "specializations", icon: Journal }, // временно
   { text: "Работы", value: "works", icon: Works },
   { text: "Запчасти", value: "parts", icon: Details },
-  { text: "Счета", value: "bills", icon: Bills }, 
+  { text: "Счета", value: "bills", icon: Bills },
   { text: "Журнал оплат", value: "journal", icon: Journal },
-  { text: "Налоги", value: "taxes", icon: Tax }, 
+  { text: "Налоги", value: "taxes", icon: Tax },
   { text: "Расходы", value: "expenses", icon: Journal }, // Временно
-  { text: "Поставщики", value: "suppliers", icon: Journal},
+  { text: "Поставщики", value: "suppliers", icon: Journal },
 ];
 
 function Manager() {
@@ -38,32 +38,41 @@ function Manager() {
   const [activeTable, setActiveTable] = useState("main");
   return (
     <>
-        <Header
-          activeFoolMenu={activeFoolMenu}
-          setActiveFoolMenu={setActiveFoolMenu}
-          activeExitMenu={activeExitMenu}
-          setActiveExitMenu={setActiveExitMenu}
-        />
-        <Navigation
-          activeFoolMenu={activeFoolMenu}
-          activeTable={activeTable}
-          setActiveTable={setActiveTable}
-          navButtonsConfig={navButtonsConfig}
-        />
-        <ExitModal
-          setActiveExitMenu={setActiveExitMenu}
-          activeExitMenu={activeExitMenu}
-        />
-        <Table 
-          activeTable={activeTable} 
-          activeFoolMenu={activeFoolMenu} 
-        />
+      <Header
+        activeFoolMenu={activeFoolMenu}
+        setActiveFoolMenu={setActiveFoolMenu}
+        activeExitMenu={activeExitMenu}
+        setActiveExitMenu={setActiveExitMenu}
+      />
+      <Navigation
+        activeFoolMenu={activeFoolMenu}
+        activeTable={activeTable}
+        setActiveTable={setActiveTable}
+        navButtonsConfig={navButtonsConfig}
+      />
+      <ExitModal
+        setActiveExitMenu={setActiveExitMenu}
+        activeExitMenu={activeExitMenu}
+      />
+      <div
+        className={`main-content-area ${
+          activeFoolMenu ? "sidebar-enabled" : "sidebar-disabled"
+        }`}
+      >
+        <Table activeTable={activeTable} activeFoolMenu={activeFoolMenu} />
+      </div>
+      <div
+        className={`view-toolbar ${
+          activeTable === "main" ? "disable" : "enable"
+        }`}
+      >
         <Toolbar
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
           // setPage={setPage}
         />
-        <Footer />
+      </div>
+      <Footer />
     </>
   );
 }
