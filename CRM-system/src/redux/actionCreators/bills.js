@@ -8,6 +8,10 @@ export const GET_MY_BILLS_SUCCESS = "GET_MY_BILLS_SUCCESS";
 export const GET_MY_BILLS_FAILED = "GET_MY_BILLS_FAILED";
 export const SET_MY_BILLS_TOTAL = "SET_MY_BILLS_TOTAL";
 
+export const GET_BILL_FOR_CAR_STARTED = "GET_BILL_FOR_CAR_STARTED";
+export const GET_BILL_FOR_CAR_SUCCESS = "GET_BILL_FOR_CAR_SUCCESS";
+export const GET_BILL_FOR_CAR_FAILED = "GET_BILL_FOR_CAR_FAILED";
+ 
 export const POST_BILL_STARTED = "POST_BILL_STARTED";
 export const POST_BILL_SUCCESS = "POST_BILL_SUCCESS";
 export const POST_BILL_FAILED = "POST_BILL_FAILED";
@@ -44,6 +48,18 @@ export const setMyBillsTotal = (total) => ({
     payload: total,
 });
 
+export const getBillForCarStarted = () => ({
+    type: GET_BILL_FOR_CAR_STARTED,
+});
+export const getBillForCarSuccess = (bills) => ({
+    type: GET_BILL_FOR_CAR_SUCCESS,
+    payload: bills,
+});
+export const getBillForCarFailed = (error) => ({
+    typr: GET_BILL_FOR_CAR_FAILED,
+    payload: error,
+});
+ 
 export const createBillStarted = () => ({
     type: POST_BILL_STARTED,
 });

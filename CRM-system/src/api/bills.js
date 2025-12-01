@@ -9,6 +9,13 @@ export const getBills = (config) => makeRequest({
     withCredentials: true,
 });
 
+export const getBillForCar = (id, config) => makeRequest({
+    method: "GET",
+    url: `${URL}/forCar/${id}`,
+    ...config,
+    withCredentials: true,
+})
+
 export const getMyBills = (config) => makeRequest({
     method: "GET",
     url: `${URL}/My`,

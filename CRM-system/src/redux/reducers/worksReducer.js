@@ -20,6 +20,8 @@ import {
     DELETE_WORK_STARTED,
     DELETE_WORK_SUCCESS,
     DELETE_WORK_FAILED,
+    GET_WORKS_FOR_CAR_STARTED,
+    GET_WORKS_FOR_CAR_SUCCESS,
 } from "../actionCreators/works";
 
 const initialState = {
@@ -28,6 +30,8 @@ const initialState = {
 
     myWorks: [],
     myWorksTotal: 0,
+
+    worksForCar: [],
 
     loading: false,
     error: null,
@@ -67,6 +71,12 @@ export default function worksReducer(state = initialState, action) {
 
         case SET_MY_WORKS_TOTAL:
             return { ...state, myWorksTotal: action.payload };
+
+        case GET_WORKS_FOR_CAR_STARTED:
+            return { ...state, loading: true,};
+
+        case GET_WORKS_FOR_CAR_SUCCESS:
+            return { ...state, loading: false, worksForCar: action.payload}
 
         case POST_WORK_STARTED:
             return { ...state, loading: true, error: null };

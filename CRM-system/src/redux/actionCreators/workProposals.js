@@ -8,6 +8,10 @@ export const GET_WORK_PROPOSAL_IN_WORK_SUCCESS = "GET_WORK_PROPOSAL_IN_WORK_SUCC
 export const GET_WORK_PROPOSAL_IN_WORK_FAILED = "GET_WORK_PROPOSAL_IN_WORK_FAILED";
 export const SET_WORK_PROPOSAL_IN_WORK_TOTAL = "SET_WORK_PROPOSAL_IN_WORK_TOTAL";
 
+export const GET_WORK_PROPOSAL_FOR_CAR_STARTED = "GET_WORK_PROPOSAL_FOR_CAR_STARTED";
+export const GET_WORK_PROPOSAL_FOR_CAR_SUCCESS = "GET_WORK_PROPOSAL_FOR_CAR_SUCCESS";
+export const GET_WORK_PROPOSAL_FOR_CAR_FAILED = "GET_WORK_PROPOSAL_FOR_CAR_FAILED";
+
 export const POST_WORK_PROPOSAL_STARTED = "POST_WORK_PROPOSAL_STARTED";
 export const POST_WORK_PROPOSAL_SUCCESS = "POST_WORK_PROPOSAL_SUCCESS";
 export const POST_WORK_PROPOSAL_FAILED = "POST_WORK_PROPOSAL_FAILED";
@@ -59,6 +63,18 @@ export const setWorkProposalInWorkTotal = (total) => ({
     type: SET_WORK_PROPOSAL_IN_WORK_TOTAL,
     payload: total,
 });
+
+export const getWorkProposalForCarStarted = () => ({
+    type: GET_WORK_PROPOSAL_FOR_CAR_STARTED,
+});
+export const getWorkProposalForCarSuccess = (workProposals) => ({
+    type: GET_WORK_PROPOSAL_FOR_CAR_SUCCESS,
+    payload: workProposals,
+})
+export const getWorkProposalForCarFailed = (error) => ({
+    type: GET_WORK_PROPOSAL_FOR_CAR_FAILED,
+    payload: error,
+})
 
 export const createWorkProposalStarted = () => ({
     type: POST_WORK_PROPOSAL_STARTED,

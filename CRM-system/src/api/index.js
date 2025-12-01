@@ -1,5 +1,5 @@
 import { getOrdersInWork } from "../redux/Actions/order";
-import { createBill, getBills, getMyBills } from "./bills";
+import { createBill, getBillForCar, getBills, getMyBills } from "./bills";
 import { createCar, deleteCar, getCarsWithInfo, getInWorkCars, getMyCars, updateCar } from "./cars";
 import { createWorkType, deleteWorkType, getCatalogOfWorks, updateWorkType } from "./catalogOfWorks";
 import { createClient, getClients, getMyClient, updateClient } from "./clients";
@@ -14,14 +14,15 @@ import { createTax, deleteTax, getTaxes, updateTax } from "./taxes";
 import { createUsedPart, deleteUsedPart, getUsedPartsInWork, getUsedPartsWithInfo, updateUsedPart } from "./usedParts";
 import { createUser, deleteUser, loginUser, logoutUser } from "./users";
 import { createWorker, deleteWorker, getMyWorker, getWorkerWithInfo, updateWorker } from "./workers";
-import { acceptWorkProposal, createWorkProposal, deleteWorkProposal, getWorkProposalInWork, getworkProposalWithInfo, rejectWorkProposal, updateWorkProposal } from "./workProposal";
-import { createWork, deleteWork, getMyWorks, getWorksWithInfo, updateWork } from "./works";
+import { acceptWorkProposal, createWorkProposal, deleteWorkProposal, getWorkProposalForCar, getWorkProposalInWork, getworkProposalWithInfo, rejectWorkProposal, updateWorkProposal } from "./workProposal";
+import { createWork, deleteWork, getMyWorks, getWorksForCar, getWorksWithInfo, updateWork } from "./works";
 
 
 export const api = {
     bills: {
         getBills,
         getMyBills,
+        getBillForCar,
         createBill,
     },
     cars: {
@@ -107,6 +108,7 @@ export const api = {
     works: {
         getMyWorks,
         getWorksWithInfo,
+        getWorksForCar,
         createWork,
         updateWork,
         deleteWork,
@@ -121,6 +123,7 @@ export const api = {
     workProposals: {
         getWorkProposalInWork,
         getworkProposalWithInfo,
+        getWorkProposalForCar,
         createWorkProposal,
         acceptWorkProposal,
         rejectWorkProposal,

@@ -22,6 +22,9 @@ import {
     DELETE_WORK_PROPOSAL_STARTED,
     DELETE_WORK_PROPOSAL_SUCCESS,
     DELETE_WORK_PROPOSAL_FAILED,
+    GET_WORK_PROPOSAL_FOR_CAR_STARTED,
+    GET_WORK_PROPOSAL_FOR_CAR_SUCCESS,
+    GET_WORK_PROPOSAL_FOR_CAR_FAILED,
 } from "../actionCreators/workProposals";
 
 
@@ -31,6 +34,8 @@ const initialState = {
 
     workProposalsInWork: [],
     workProposalsInWorkTotal: 0,
+
+    workProposalsForCar: [],
 
     loading: false,
     error: null,
@@ -70,6 +75,15 @@ export default function workProposalsReducer(state = initialState, action) {
 
         case SET_WORK_PROPOSAL_IN_WORK_TOTAL:
             return { ...state, workProposalsInWorkTotal: action.payload };
+
+        case GET_WORK_PROPOSAL_FOR_CAR_STARTED:
+            return { ...state, loading: true}
+
+        case GET_WORK_PROPOSAL_FOR_CAR_SUCCESS:
+            return { ...state, loading: false, workProposalsForCar: action.payload};
+        
+        case GET_WORK_PROPOSAL_FOR_CAR_FAILED:
+            return { ...state, loading: false, error: action.payload};
 
         case POST_WORK_PROPOSAL_STARTED:
             return { ...state, loading: true, error: null };

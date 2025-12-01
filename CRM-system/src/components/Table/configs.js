@@ -239,8 +239,8 @@ export const headTextJournalClient = [
   "Метод",
 ];
 
-export const columnsWorksForCar = ["id", "name", "status"];
+export const columnsWorksForCar = ["id", "jobName", "statusName"];
 export const headTextWorksForCar = ["№", "Название рабботы", "Статус"];
 
-export const columnsProposalsForCar = ["id", "name", "date"];
-export const headTextProposalsForCar = ["№", "Название работы", "Дата"];
+export const columnsProposalsForCar = ["id", "jobName", "statusName"];
+export const headTextProposalsForCar = ["№", "Название рабботы", "Статус"];

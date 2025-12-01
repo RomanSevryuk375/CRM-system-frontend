@@ -1,5 +1,5 @@
 import { api } from "../../api"
-import { createWorkFailed, createWorkStarted, createWorkSuccess, deleteWorkFailed, deleteWorkStarted, deleteWorkSuccess, getMyWorksFailed, getMyWorksStarted, getMyWorksSuccess, getWorksWithInfoFailed, getWorksWithInfoStarted, getWorksWithInfoSuccess, setMyWorksTotal, setWorksWithInfoTotal, updateWorkFailed, updateWorkStarted, updateWorkSuccess } from "../actionCreators/works"
+import { createWorkFailed, createWorkStarted, createWorkSuccess, deleteWorkFailed, deleteWorkStarted, deleteWorkSuccess, getMyWorksFailed, getMyWorksStarted, getMyWorksSuccess, getWorksForCarFailed, getWorksForCarStarted, getWorksForCarSuccess, getWorksWithInfoFailed, getWorksWithInfoStarted, getWorksWithInfoSuccess, setMyWorksTotal, setWorksWithInfoTotal, updateWorkFailed, updateWorkStarted, updateWorkSuccess } from "../actionCreators/works"
 
 export const getWorksWithInfo = (page = 1) => {
     return async (dispatch) => {
@@ -51,6 +51,20 @@ export const getMyWorks = (page = 1) => {
             }));
         } catch (error) {
             dispatch(getMyWorksFailed(error));
+        }
+    };
+};
+
+export const getWorksForCar = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch(getWorksForCarStarted());
+
+            const response = await api.works.getWorksForCar(id);
+
+            dispatch(getWorksForCarSuccess(response.data));
+        } catch (error) {
+            dispatch(getWorksForCarFailed(error));
         }
     };
 };

@@ -19,7 +19,7 @@ import { getTaxes } from "../../redux/Actions/taxes";
 import { getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
 import { getWorkerWithInfo } from "../../redux/Actions/workers";
 import "./Table.css";
-import { getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
+import { getWorkProposalForCar, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
 import { getSpecializations } from "../../redux/Actions/specialization";
 import { getSuppliers } from "../../redux/Actions/suppliers";
 import { getWorksWithInfo } from "../../redux/Actions/works";
@@ -104,6 +104,9 @@ function Table({ activeTable, isMod, setIsMod }) {
   );
   const taxes = useSelector((state) => state.taxes.taxes);
   const expenses = useSelector((state) => state.expenses.expenses);
+  const workProposalForCar = useSelector((state) => state.workProposals.workProposalsForCar);
+  const workForCars = useSelector((state) => state.works.worksForCar);
+  
   const totalCatalog = useSelector(
     (state) => state.catalogOfWorks.totalCatalog
   );
@@ -276,7 +279,7 @@ function Table({ activeTable, isMod, setIsMod }) {
       needsDetailing: false,
     },
     worksForCar: {
-      data: [], // fix it in future
+      data: workForCars,
       total: 0,
       action: null,
       columns: columnsWorksForCar,
@@ -284,8 +287,8 @@ function Table({ activeTable, isMod, setIsMod }) {
       needsDetailing: false,
     },
     proposalsForCar: {
-      data: [], // fix it in future
-      total: 0,
+      data: workProposalForCar, 
+      total: null,
       action: null,
       columns: columnsProposalsForCar,
       headText: headTextProposalsForCar,

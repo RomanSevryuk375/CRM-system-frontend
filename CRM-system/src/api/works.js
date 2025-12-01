@@ -16,6 +16,13 @@ export const getMyWorks = (config) => makeRequest({
     withCredentials: true,
 });
 
+export const getWorksForCar = (id, config) => makeRequest({
+    method: "GET",
+    url: `${URL}/forCar/${id}`,
+    ...config,
+    withCredentials: true,
+})
+
 export const createWork = (data) => makeRequest({
     method: "POST",
     url: URL,

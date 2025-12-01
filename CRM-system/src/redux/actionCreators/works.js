@@ -8,6 +8,10 @@ export const GET_MY_WORKS_SUCCESS = "GET_MY_WORKS_SUCCESS";
 export const GET_MY_WORKS_FAILED = "GET_MY_WORKS_FAILED";
 export const SET_MY_WORKS_TOTAL = "SET_MY_WORKS_TOTAL";
 
+export const GET_WORKS_FOR_CAR_STARTED = "GET_WORKS_FOR_CAR_STARTED";
+export const GET_WORKS_FOR_CAR_SUCCESS = "GET_WORKS_FOR_CAR_SUCCESS";
+export const GET_WORKS_FOR_CAR_FAILED = "GET_WORKS_FOR_CAR_FAILED";
+
 export const POST_WORK_STARTED = "POST_WORK_STARTED";
 export const POST_WORK_SUCCESS = "POST_WORK_SUCCESS";
 export const POST_WORK_FAILED = "POST_WORK_FAILED";
@@ -50,6 +54,18 @@ export const getMyWorksFailed = (error) => ({
 export const setMyWorksTotal = (total) => ({
     type: SET_MY_WORKS_TOTAL,
     payload: total,
+});
+
+export const getWorksForCarStarted = () => ({
+    type: GET_WORKS_FOR_CAR_STARTED,
+});
+export const getWorksForCarSuccess = (works) => ({
+    type: GET_WORKS_FOR_CAR_SUCCESS,
+    payload: works,
+});
+export const getWorksForCarFailed = (error) => ({
+    type: GET_WORKS_FOR_CAR_FAILED,
+    payload: error,
 });
 
 export const createWorkStarted = () => ({

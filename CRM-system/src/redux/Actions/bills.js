@@ -1,5 +1,5 @@
 import { api } from "../../api"
-import { createBillFailed, createBillStarted, createBillSuccess, getBillsFailed, getBillsStarted, getBillsSuccess, getMyBillsFailed, getMyBillsStarted, getMyBillsSuccess, setBillsTotal, setMyBillsTotal } from "../actionCreators/bills";
+import { createBillFailed, createBillStarted, createBillSuccess, getBillForCarFailed, getBillForCarStarted, getBillForCarSuccess, getBillsFailed, getBillsStarted, getBillsSuccess, getMyBillsFailed, getMyBillsStarted, getMyBillsSuccess, setBillsTotal, setMyBillsTotal } from "../actionCreators/bills";
 
 export const getBills = (page = 1) => {
     return async (dispatch) => {
@@ -51,6 +51,20 @@ export const getMyBills = (page = 1) => {
             }));
         } catch (error) {
             dispatch(getMyBillsFailed(error));
+        }
+    };
+};
+
+export const getBillForCar = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch(getBillForCarStarted());
+
+            const response = await api.bills.getBillForCar(id);
+
+            dispatch(getBillForCarSuccess(response.data));
+        } catch (error) {
+            dispatch(getBillForCarFailed(error));
         }
     };
 };

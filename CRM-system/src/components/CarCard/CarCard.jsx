@@ -10,11 +10,15 @@ import { useEffect, useState } from "react";
 import { deleteCar, getMyCars } from "../../redux/Actions/cars";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Table from "../Table/Table";
+import { getWorkProposalForCar } from "../../redux/Actions/workProposals";
+import { getWorksForCar } from "../../redux/Actions/works";
+import { getBillForCar } from "../../redux/Actions/bills";
 
 function CarCard({ isMod, setIsMod, page, setPage }) {
   const myCars = useSelector((state) => state.cars.myCars);
   const myCarsTotal = useSelector((state) => state.cars.myCarsTotal);
   const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
+  const billForCar = useSelector((state) => state.bills.billForCar); 
   const dispatch = useDispatch();
   const [expandedCardId, setExpandedCardId] = useState(null);
 
@@ -85,7 +89,11 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                 >
                   <button
                     className="car-buttons-button"
-                    onClick={() => toggleDetails(item.id)}
+                    onClick={() => {
+                      dispatch(getBillForCar(item.id)),
+                      dispatch(getWorkProposalForCar(item.id)),
+                      dispatch(getWorksForCar(item.id)),
+                      toggleDetails(item.id)}}
                   >
                     {expandedCardId === item.id ? "Скрыть" : "Подробнее"}
                   </button>
@@ -152,7 +160,7 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                     <h1 className="CCexpanded-info-label">Финансы</h1>
                     <div>
                       <p className="CCexpanded-info-details">Общая сумма</p>
-                      <h6 className="CCexpanded-info-info">1200 BYN</h6>
+                      <h6 className="CCexpanded-info-info">{billForCar[0].amount}</h6>
                       <button className="car-buttons-button">Оплатить</button>
                     </div>
                   </div>
