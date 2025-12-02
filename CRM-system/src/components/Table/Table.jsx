@@ -9,17 +9,17 @@ import { getBills, getMyBills } from "../../redux/Actions/bills";
 import { getCatalogOfWorks } from "../../redux/Actions/catalogOfWorks";
 import { getClients } from "../../redux/Actions/clients";
 import { getExpensesWithInwo } from "../../redux/Actions/expenses";
-import { getMyOrders, getOrdersWithInfo } from "../../redux/Actions/order";
+import { getMyOrders, getOrdersInWork, getOrdersWithInfo } from "../../redux/Actions/order";
 import {
   getMyPaymentNotes,
   getPaymentNotes,
 } from "../../redux/Actions/paymentNotes";
-import { getMyRepairNotes } from "../../redux/Actions/repairNotes";
+import { getMyRepairNotes, getRepairNotesInWork } from "../../redux/Actions/repairNotes";
 import { getTaxes } from "../../redux/Actions/taxes";
-import { getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
+import { getUsedPartsInWork, getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
 import { getWorkerWithInfo } from "../../redux/Actions/workers";
 import "./Table.css";
-import { getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
+import { getWorkProposalInWork, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
 import { getSpecializations } from "../../redux/Actions/specialization";
 import { getSuppliers } from "../../redux/Actions/suppliers";
 import { getWorksWithInfo } from "../../redux/Actions/works";
@@ -85,6 +85,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   );
   const orders = useSelector((state) => state.orders.orders);
   const ordersClient = useSelector((state) => state.orders.myOrders);
+  const ordersInWork = useSelector((state) => state.orders.inWorkOrders);
   const clients = useSelector((state) => state.clients.clients);
   const workers = useSelector((state) => state.workers.workersWithInfo);
   const specializations = useSelector(
@@ -96,6 +97,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
     (state) => state.workProposals.workProposalsWithInfo
   );
   const parts = useSelector((state) => state.usedParts.usedPartsWithInfo);
+  const partsInWork = useSelector((state) => state.usedParts.usedPartsInWork)
   const bills = useSelector((state) => state.bills.bills);
   const billsClient = useSelector((state) => state.bills.myBills);
   const journal = useSelector((state) => state.paymentNotes.paymentNotes);
@@ -105,9 +107,11 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   const repairNotesClient = useSelector(
     (state) => state.repairNotes.myRepairNotes
   );
+  const repairNotesInWork = useSelector((state) => state.repairNotes.repairNotesInWork);
   const taxes = useSelector((state) => state.taxes.taxes);
   const expenses = useSelector((state) => state.expenses.expenses);
   const workProposalForCar = useSelector((state) => state.workProposals.workProposalsForCar);
+  const workProposalInWork = useSelector((state) => state.workProposals.workProposalsInWork);
   const workForCars = useSelector((state) => state.works.worksForCar);
   
   const totalCatalog = useSelector(
@@ -115,6 +119,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   );
   const totalOrders = useSelector((state) => state.orders.totalOrders);
   const totalOrdersClient = useSelector((state) => state.orders.myOrdersTotal);
+  const totalOrdersInWork = useSelector((state) => state.orders.inWorkOrdersTotal);
   const totalClients = useSelector((state) => state.clients.totalClients);
   const totalWorkers = useSelector(
     (state) => state.workers.workersWithInfoTotal
@@ -127,9 +132,11 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   const totalWorkProposals = useSelector(
     (state) => state.workProposals.workProposalsWithInfoTotal
   );
+  const totalWorkProposalsInWork = useSelector((state) => state.workProposals.workProposalsInWorkTotal);
   const totalParts = useSelector(
     (state) => state.usedParts.usedPartsWithInfoTotal
   );
+  const totalPartsInWork = useSelector((state) => state.usedParts.usedPartsInWorkTotal);
   const totalBills = useSelector((state) => state.bills.billsTotal);
   const totalBillsClient = useSelector((state) => state.bills.myBillsTotal);
   const totalJournal = useSelector(
@@ -140,6 +147,9 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   );
   const totalRepairNotesClient = useSelector(
     (state) => state.repairNotes.myRepairNotesTotal
+  );
+  const totalRepairNotesInWork = useSelector( 
+    (state) => state.repairNotes.repairNotesInWorkTotal
   );
   const totalTaxes = useSelector((state) => state.taxes.totalTaxes);
   const totalExpenses = useSelector((state) => state.expenses.expensesTotal);
@@ -160,6 +170,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       columns: columnsOrdersClient,
       headText: headTextOrdersClient,
       needsDetailing: true,
+    },
+    ordersWorker: {
+      data: ordersInWork, 
+      total: totalOrdersInWork,
+      action: getOrdersInWork,
+      columns: columnsOreders,
+      headText: headTextOrders,
+      needsDetailing: false,
     },
     clients: {
       data: clients,
@@ -189,6 +207,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       data: parts,
       total: totalParts,
       action: getUsedPartsWithInfo,
+      columns: columnsParts,
+      headText: headTextParts,
+      needsDetailing: false,
+    },
+    partsWorker: {
+      data: partsInWork,
+      total: totalPartsInWork,
+      action: getUsedPartsInWork,
       columns: columnsParts,
       headText: headTextParts,
       needsDetailing: false,
@@ -233,6 +259,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       headText: headTextHistoryClient,
       needsDetailing: true,
     },
+    historyWorker: {
+      data: repairNotesInWork,
+      total: totalRepairNotesInWork,
+      action: getRepairNotesInWork,
+      columns: columnsHistoryClient,
+      headText: headTextHistoryClient,
+      needsDetailing: true,
+    },
     taxes: {
       data: taxes,
       total: totalTaxes,
@@ -253,6 +287,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       data: workProposals,
       total: totalWorkProposals,
       action: getWorkProposalWithInfo,
+      columns: columnsWorkProposals,
+      headText: headTextWorkProposals,
+      needsDetailing: false,
+    },
+    proposalWorker: {
+      data: workProposalInWork,
+      total: totalWorkProposalsInWork,
+      action: getWorkProposalInWork,
       columns: columnsWorkProposals,
       headText: headTextWorkProposals,
       needsDetailing: false,

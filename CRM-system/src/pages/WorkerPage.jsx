@@ -13,17 +13,17 @@ import Table from "../components/Table/Table";
 import Toolbar from "../components/Toolbar/Toolbar";
 
 const navButtonsConfig = [
-  { text: "Главная", value: "mainClient", icon: Home },
-  { text: "Заказ-наряды", value: "ordersClient", icon: Bills },
-  { text: "История посещений", value: "historyClient", icon: Task },
-  { text: "Счета", value: "billsClient", icon: Rashodi },
-  { text: "Журнал оплат", value: "journalClient", icon: Journal },
+  { text: "Главная", value: "mainWorker", icon: Home },
+  { text: "Заказ-наряды", value: "ordersWorker", icon: Bills },
+  { text: "История посещений", value: "historyWorker", icon: Task },
+  { text: "Запчасти", value: "partsWorker", icon: Journal },
+  { text: "Предложения", value: "proposalWorker", icon: Journal },
 ];
 
 function PersonalPage() {
   const [activeFoolMenu, setActiveFoolMenu] = useState(false);
   const [activeExitMenu, setActiveExitMenu] = useState(false);
-  const [activeTable, setActiveTable] = useState("mainClient");
+  const [activeTable, setActiveTable] = useState("mainWorker");
   const [isMod, setIsMod] = useState(false);
   const [page, setPage] = useState(1);
   return (

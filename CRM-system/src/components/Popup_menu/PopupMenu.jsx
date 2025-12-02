@@ -4,10 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createCar,
   getCarsWithInfo,
+  getInWorkCars,
   getMyCars,
 } from "../../redux/Actions/cars";
 import {
   createOrder,
+  getOrdersInWork,
   getOrdersWithInfo,
 } from "../../redux/Actions/order";
 import { createPaymentNote } from "../../redux/Actions/paymentNotes";
@@ -351,7 +353,6 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       });
     }
     if (isOpen && activeTable === "expenses") {
-      //taxes
       dispatch(getTaxes(1)).then(() => {
         const taxes = allTaxes || [];
 
@@ -365,7 +366,7 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
           taxes: mappedTaxes,
         }));
       });
-      //usedParts p
+
       dispatch(getUsedPartsWithInfo(1)).then(() => {
         const usedParts = allUsedParts || [];
 
@@ -438,6 +439,123 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         }));
       });
     }
+    if (isOpen && activeTable === "ordersWorker") {
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        
+          const filteredStatuses = statuses.filter((status) => status.id === 8);
+
+          const mappedStatuses = filteredStatuses.map((status) => ({
+            value: status.id,
+            label: status.name,
+          }));
+
+          setOptions((prev) => ({
+            ...prev,
+            statuses: mappedStatuses,
+        }));
+      });
+
+      dispatch(getInWorkCars(1)).then(() => {
+        const cars = allCars || [];
+
+        const mappedCars = cars.map((car) => ({
+          value: car.id,
+          label: `${car.brand} ${car.model} (${car.stateNumber})`,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          cars: mappedCars,
+        }));
+      });
+    }
+    if (isOpen || activeTable === "partsWorker") {
+      dispatch(getOrdersInWork(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+      });
+
+      dispatch(getSuppliers(1)).then(() => {
+        const suppliers = allSuppliers || [];
+
+        const mappedSuppliers = suppliers.map((supplier) => ({
+          value: supplier.id,
+          label: supplier.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          suppliers: mappedSuppliers,
+        }));
+      });
+      if (isOpen && activeTable === "proposalWorker") {
+        dispatch(getOrdersInWork(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+        dispatch(getCatalogOfWorks(1)).then(() => {
+        const works = allWorkTypes || [];
+        
+        const mappedWorks = works.map((work) => ({
+          value: work.id,
+          label: work.title,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          catalogOfWorks: mappedWorks,
+        }));
+      });
+
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        const filteredStatuses = statuses.filter((status) => status.id === 8);
+
+        const mappedStatuses = filteredStatuses.map((status) => ({
+          value: status.id,
+          label: status.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          statuses: mappedStatuses,
+        }));
+      });
+
+      dispatch(getWorkerWithInfo(1)).then(() => {
+        const workers = allWorkers || [];
+
+        const mappedWorkers = workers.map((worker) => ({
+          value: worker.id,
+          label: worker.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          workers: mappedWorkers,
+        }));
+      }); // поменять чтоб был чисто тот работник которы вошел в акк  
+      });
+      }
+    }
   }, [isOpen, activeTable]);
 
   const handleInputChange = useCallback((e) => {
@@ -458,6 +576,9 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         case "ordersClient":
           formTypeToInitialize = "order";
           break;
+        case "ordersWorker":
+          formTypeToInitialize = "order";
+          break;
         case "journalClient":
           formTypeToInitialize = "paymentNote";
           break;
@@ -476,6 +597,9 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         case "parts":
           formTypeToInitialize = "usedPart";
           break;
+        case "partsWorker":
+          formTypeToInitialize = "usedPart";
+          break;
         case "bills":
           formTypeToInitialize = "bill";
           break;
@@ -489,14 +613,18 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
           formTypeToInitialize = "expense";
           break;
         case "propossals":
-          formTypeToInitialize = "propossals"
+          formTypeToInitialize = "propossals";
+          break;
+        case "proposalWorker":
+          formTypeToInitialize = "propossals";
+          break;
         default:
           formTypeToInitialize = "";
       }
       if (formTypeToInitialize) {
         setFormData(
           getInitialFormState(formTypeToInitialize, clientId, workerId)
-        ); //workerId
+        );
       }
       setCategoryMenu(formTypeToInitialize);
     }
@@ -504,7 +632,11 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
 
   const submitBillForm = (e) => {
     e.preventDefault();
-    dispatch(createBill(formData));
+    const fixedData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),
+    };
+    dispatch(createBill(fixedData));
     onClose();
     setPage(1);
   };
@@ -522,7 +654,11 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   };
   const submitExpensesForm = (e) => {
     e.preventDefault();
-    dispatch(createExpense(formData));
+    const fixedData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),
+    };
+    dispatch(createExpense(fixedData));
     onClose();
     setPage(1);
   };
@@ -617,6 +753,12 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       currentModalTitle = MODAL_TITLE_ORDER;
       currentToolbarContent = TOOLBAR_CONTENT_ORDER;
       break;
+    case "ordersWorker":
+      currentFields = getMyOrderFields(options);
+      currentHandleSubmit = submitOrderForm;
+      currentModalTitle = MODAL_TITLE_ORDER;
+      currentToolbarContent = TOOLBAR_CONTENT_ORDER;
+      break;
     case "journalClient":
       currentFields = getMyJournalFields(options);
       currentHandleSubmit = submitPaymentNoteForm;
@@ -648,6 +790,12 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       currentToolbarContent = TOOLBAR_CONTENT_WORK;
       break;
     case "parts":
+      currentFields = getUsedPartFields(options);
+      currentHandleSubmit = submitUsedPartForm;
+      currentModalTitle = MODAL_TITLE_USED_PART;
+      currentToolbarContent = TOOLBAR_CONTENT_USED_PART;
+      break;
+    case "partsWorker":
       currentFields = getUsedPartFields(options);
       currentHandleSubmit = submitUsedPartForm;
       currentModalTitle = MODAL_TITLE_USED_PART;
@@ -690,6 +838,12 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
       currentToolbarContent = TOOLBAR_CONTENT_SUPPLIER;
       break;
     case "propossals":
+      currentFields = getWorkProposalFields(options);
+      currentHandleSubmit = submitWorkProposalForm;
+      currentModalTitle = MODAL_TITLE_WORK_PROPOSAL;
+      currentToolbarContent = TOOLBAR_CONTENT_WORK_PROPOSAL;
+      break;
+    case "proposalWorker":
       currentFields = getWorkProposalFields(options);
       currentHandleSubmit = submitWorkProposalForm;
       currentModalTitle = MODAL_TITLE_WORK_PROPOSAL;

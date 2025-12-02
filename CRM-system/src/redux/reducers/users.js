@@ -5,6 +5,7 @@ const initialeState = {
     users: [],
     isLoggedIn: !!token,
     isUsersLoading: true,
+    userRoleId: null,
 };
 
 export const usersReducer = (state = initialeState, action) => {
@@ -19,6 +20,7 @@ export const usersReducer = (state = initialeState, action) => {
                 ...state,
                 isLoggedIn: true,
                 isUsersLoading: false,
+                userRoleId: action.payload.roleId,
             };
         case LOGIN_USER_FAILED:
             return {
@@ -35,6 +37,7 @@ export const usersReducer = (state = initialeState, action) => {
             return {
                 ...state,
                 isLoggedIn: false,
+                userRoleId: null,
                 isUsersLoading: false,
             };
         case LOGOUT_USER_FAILED: 

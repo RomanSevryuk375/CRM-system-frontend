@@ -99,7 +99,6 @@ export const getInitialFormState = (formType, clientId = null, workerId = null) 
         workId: 0,
         byWorker: 0,
         statusId: 0,
-        // decisionStatusId: 7,
         date: "",
       };
     case "workType":

@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 function ClientBanner() {
     const [registrationIsOpen, setRegistrationIsOpen] = useState(false);
     const isLoggedIn = useSelector(state => state.users.isLoggedIn);
+    const usersId = useSelector(state => state.users.userRoleId);
     const navigate = useNavigate();
     return (
         <>
@@ -55,17 +56,17 @@ function ClientBanner() {
                             <button
                                 className='banner-button-cli-active'
                                 onClick={() => {
-                                    // if (isLoggedIn === true) {
+                                    if (isLoggedIn === true && usersId === 2) {
                                         navigate('/personal-page')
-                                    // } else {
-                                        // setRegistrationIsOpen(!registrationIsOpen)
-                                    // }
+                                    } else {
+                                        setRegistrationIsOpen(!registrationIsOpen)
+                                    }
                                 }}
                             >Заказать диагностику</button>
                             <button
                                 className='banner-button-cli'
                                 onClick={() => {
-                                    if (isLoggedIn === true) {
+                                    if (isLoggedIn === true && usersId === 2) {
                                         navigate('/personal-page')
                                     } else {
                                         setRegistrationIsOpen(!registrationIsOpen)
