@@ -95,11 +95,11 @@ export const getInitialFormState = (formType, clientId = null, workerId = null) 
       };
     case "workProposal":
       return {
-        orderId: "",
-        workId: "",
-        byWorker: "",
-        statusId: "",
-        decisionStatusId: "",
+        orderId: 0,
+        workId: 0,
+        byWorker: 0,
+        statusId: 0,
+        // decisionStatusId: 7,
         date: "",
       };
     case "workType":

@@ -10,7 +10,7 @@ import { useEffect, useState } from "react";
 import { deleteCar, getMyCars } from "../../redux/Actions/cars";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Table from "../Table/Table";
-import { getWorkProposalForCar } from "../../redux/Actions/workProposals";
+import { acceptWorkProposal, getWorkProposalForCar, rejectWorkProposal } from "../../redux/Actions/workProposals";
 import { getWorksForCar } from "../../redux/Actions/works";
 import { getBillForCar } from "../../redux/Actions/bills";
 
@@ -19,6 +19,8 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
   const myCarsTotal = useSelector((state) => state.cars.myCarsTotal);
   const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
   const billForCar = useSelector((state) => state.bills.billForCar); 
+  const [activeDetailing, setActiveDetailing] = useState(null);
+  console.log(activeDetailing);
   const dispatch = useDispatch();
   const [expandedCardId, setExpandedCardId] = useState(null);
 
@@ -148,11 +150,19 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                 <div>
                   <h1 className="CCexpanded-table-label">Работы</h1>
                   <div className="CCtable">
-                    <Table activeTable={"worksForCar"} />
+                    <Table 
+                      activeTable={"worksForCar"}
+                      activeDetailing={activeDetailing}
+                      setActiveDetailing={setActiveDetailing}
+                    />
                   </div>
                   <h1 className="CCexpanded-table-label">Предложения</h1>
                   <div className="CCtable">
-                    <Table activeTable={"proposalsForCar"} />
+                    <Table 
+                      activeTable={"proposalsForCar"}
+                      activeDetailing={activeDetailing}
+                      setActiveDetailing={setActiveDetailing}                    
+                    />
                   </div>
                 </div>
                 <div className="CCexpanded-info">
@@ -160,7 +170,7 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                     <h1 className="CCexpanded-info-label">Финансы</h1>
                     <div>
                       <p className="CCexpanded-info-details">Общая сумма</p>
-                      <h6 className="CCexpanded-info-info">{billForCar[0].amount}</h6>
+                      <h6 className="CCexpanded-info-info">{billForCar?.[0]?.amount ?? "—"}</h6>
                       <button className="car-buttons-button">Оплатить</button>
                     </div>
                   </div>
@@ -183,15 +193,21 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                       <p className="CCexpanded-info-details">
                         Выбранное предлоение
                       </p>
-                      <h6 className="CCexpanded-info-info">2</h6>
+                      <h6 className="CCexpanded-info-info">{activeDetailing ?? "-"}</h6>
                       <div className="CCexpanded-prop-buttons">
                         <div>
-                          <button className="car-buttons-button">
+                          <button 
+                            className="car-buttons-button"
+                            onClick={() => {dispatch(acceptWorkProposal(activeDetailing))}}
+                          >
                             Принять
                           </button>
                         </div>
                         <div>
-                          <button className="car-buttons-button">
+                          <button 
+                            className="car-buttons-button"
+                            onClick={() => {dispatch(rejectWorkProposal(activeDetailing))}}
+                          >
                             Отклонить
                           </button>
                         </div>

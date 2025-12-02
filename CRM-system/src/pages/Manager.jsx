@@ -35,6 +35,7 @@ const navButtonsConfig = [
 function Manager() {
   const [activeFoolMenu, setActiveFoolMenu] = useState(false);
   const [activeExitMenu, setActiveExitMenu] = useState(false);
+  const [activeDetailing, setActiveDetailing] = useState(null);
   const [activeTable, setActiveTable] = useState("main");
   return (
     <>
@@ -59,7 +60,12 @@ function Manager() {
           activeFoolMenu ? "sidebar-enabled" : "sidebar-disabled"
         }`}
       >
-        <Table activeTable={activeTable} activeFoolMenu={activeFoolMenu} />
+        <Table 
+          activeTable={activeTable} 
+          activeFoolMenu={activeFoolMenu} 
+          activeDetailing={activeDetailing}
+          setActiveDetailing={setActiveDetailing}
+        />
       </div>
       <div
         className={`view-toolbar ${

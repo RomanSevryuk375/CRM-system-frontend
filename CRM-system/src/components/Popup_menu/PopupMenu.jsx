@@ -74,6 +74,7 @@ import { createWork, getWorksWithInfo } from "../../redux/Actions/works";
 import { createWorker, getWorkerWithInfo } from "../../redux/Actions/workers";
 import { createWorkProposal } from "../../redux/Actions/workProposals";
 import { getStatuses } from "../../redux/Actions/statuses";
+import { getCatalogOfWorks } from "../../redux/Actions/catalogOfWorks";
 
 function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const allSuppliers = useSelector((state) => state.suppliers.suppliers);
   const allWorkers = useSelector((state) => state.workers.workersWithInfo);
   const allWorks = useSelector((state) => state.works.works);
+  const allWorkTypes = useSelector((state) => state.catalogOfWorks.catalogOfWorks)
   const allSpecializations = useSelector(
     (state) => state.specializations.specializations
   );
@@ -104,6 +106,7 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
     usedParts: [],
     suppliers: [],
     workers: [],
+    catalogOfWorks: [],
     works: [],
     specializations: [],
   });
@@ -257,19 +260,19 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         }));
       });
 
-      // dispatch(getWorksWithInfo(1)).then(() => {
-      //   const works = allWorks || [];
+      dispatch(getCatalogOfWorks(1)).then(() => {
+        const works = allWorkTypes || [];
         
-      //   const mappedWorks = works.map((work) => ({
-      //     value: work.id,
-      //     label: work.jobName,
-      //   }));
+        const mappedWorks = works.map((work) => ({
+          value: work.id,
+          label: work.title,
+        }));
 
-      //   setOptions((prev) => ({
-      //     ...prev,
-      //     works: mappedWorks,
-      //   }));
-      // });
+        setOptions((prev) => ({
+          ...prev,
+          catalogOfWorks: mappedWorks,
+        }));
+      });
 
       dispatch(getStatuses()).then(() => {
         const statuses = allStatuses || [];
@@ -377,6 +380,64 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         }));
       });
     }
+    if (isOpen && activeTable === "propossals") {
+      dispatch(getOrdersWithInfo(1)).then(() => {
+        const orders = allOrders || [];
+
+        const mappedOrders = orders.map((order) => ({
+          value: order.id,
+          label: order.carInfo,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          orders: mappedOrders,
+        }));
+      });
+
+      dispatch(getCatalogOfWorks(1)).then(() => {
+        const works = allWorkTypes || [];
+        
+        const mappedWorks = works.map((work) => ({
+          value: work.id,
+          label: work.title,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          catalogOfWorks: mappedWorks,
+        }));
+      });
+
+      dispatch(getStatuses()).then(() => {
+        const statuses = allStatuses || [];
+        const filteredStatuses = statuses.filter((status) => status.id === 8);
+
+        const mappedStatuses = filteredStatuses.map((status) => ({
+          value: status.id,
+          label: status.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          statuses: mappedStatuses,
+        }));
+      });
+
+      dispatch(getWorkerWithInfo(1)).then(() => {
+        const workers = allWorkers || [];
+
+        const mappedWorkers = workers.map((worker) => ({
+          value: worker.id,
+          label: worker.name,
+        }));
+
+        setOptions((prev) => ({
+          ...prev,
+          workers: mappedWorkers,
+        }));
+      });
+    }
   }, [isOpen, activeTable]);
 
   const handleInputChange = useCallback((e) => {
@@ -427,6 +488,8 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
         case "expenses":
           formTypeToInitialize = "expense";
           break;
+        case "propossals":
+          formTypeToInitialize = "propossals"
         default:
           formTypeToInitialize = "";
       }
@@ -448,7 +511,6 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   const submitCarForm = (e) => {
     e.preventDefault();
     dispatch(createCar(formData));
-    // dispatch(getMyCars(1))
     onClose();
     setPage(1);
   };
@@ -522,7 +584,11 @@ function PopupMenu({ isOpen, onClose, activeTable, setPage }) {
   };
   const submitWorkProposalForm = (e) => {
     e.preventDefault();
-    dispatch(createWorkProposal(formData));
+    const fixedData = {
+      ...formData,
+      date: new Date(formData.date).toISOString(),
+    };
+    dispatch(createWorkProposal(fixedData));
     onClose();
     setPage(1);
   };

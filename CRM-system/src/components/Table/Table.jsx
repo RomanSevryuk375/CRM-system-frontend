@@ -19,7 +19,7 @@ import { getTaxes } from "../../redux/Actions/taxes";
 import { getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
 import { getWorkerWithInfo } from "../../redux/Actions/workers";
 import "./Table.css";
-import { getWorkProposalForCar, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
+import { getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
 import { getSpecializations } from "../../redux/Actions/specialization";
 import { getSuppliers } from "../../redux/Actions/suppliers";
 import { getWorksWithInfo } from "../../redux/Actions/works";
@@ -64,13 +64,16 @@ import {
   headTextWorksForCar,
 } from "./configs";
 
-function Table({ activeTable, isMod, setIsMod }) {
-  const [activeDetailing, setActiveDetailing] = useState(false);
+function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing }) {
 
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const isLoadingRef = useRef(false);
   const isSwitchingTable = useRef(false);
+
+  const toggleActiveRow = (rowId) => {
+    setActiveDetailing((prev) => (prev === rowId ? null : rowId))
+  }
 
   useEffect(() => {
     isSwitchingTable.current = true;
@@ -287,7 +290,7 @@ function Table({ activeTable, isMod, setIsMod }) {
       needsDetailing: false,
     },
     proposalsForCar: {
-      data: workProposalForCar, 
+      data: workProposalForCar.filter((prop) => prop.statusName !== "Принят"), 
       total: null,
       action: null,
       columns: columnsProposalsForCar,
@@ -297,7 +300,6 @@ function Table({ activeTable, isMod, setIsMod }) {
   };
 
   useEffect(() => {
-    // если таблица неизвестна — ничего не делаем
     const cfg = tableConfig[activeTable];
     if (!cfg || !cfg.action) return;
 
@@ -354,8 +356,7 @@ function Table({ activeTable, isMod, setIsMod }) {
           headText={cfg.headText}
           bodyText={dataForRender || []}
           columns={cfg.columns}
-          activeDetailing={activeDetailing}
-          setActiveDetailing={setActiveDetailing}
+          toggleActive={toggleActiveRow}
           nextHandler={cfg.action ? nextHandler : undefined}
           hasMore={cfg.action ? hasMore : false}
         />
@@ -364,7 +365,6 @@ function Table({ activeTable, isMod, setIsMod }) {
     );
   }
 
-  // fallback
   return <h1>Error</h1>;
 }
 

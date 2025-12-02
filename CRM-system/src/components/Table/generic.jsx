@@ -6,8 +6,7 @@ export const GenericTable = ({
   headText,
   bodyText,
   columns,
-  activeDetailing,
-  setActiveDetailing,
+  toggleActive,
   nextHandler,
   hasMore,
 }) => {
@@ -48,7 +47,7 @@ export const GenericTable = ({
                 key={row.id}
                 className={`table-row ${index % 2 === 0 ? "even" : "odd"}`}
                 onClick={() => {
-                  setActiveDetailing(!activeDetailing);
+                  toggleActive(row.id);
                 }}
               >
                 <td>

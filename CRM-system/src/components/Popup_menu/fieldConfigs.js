@@ -309,7 +309,7 @@ export const getWorkFields = (options) => [
     name: "jobId",
     label: "Работа",
     type: "select",
-    options: options.works || [],
+    options: options.catalogOfWorks || [],
     placeholder: "Выберите работу",
   },
   {
@@ -403,7 +403,7 @@ export const getWorkProposalFields = (options) => [
     name: "workId",
     label: "Работа",
     type: "select",
-    options: options.works || [],
+    options: options.catalogOfWorks || [],
     placeholder: "Выберите работу",
   },
   {
