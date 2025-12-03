@@ -63,7 +63,7 @@ export default function worksReducer(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                myWorks: action.payload,
+                myWorks: action.payload.data,
             };
 
         case GET_MY_WORKS_FAILED:

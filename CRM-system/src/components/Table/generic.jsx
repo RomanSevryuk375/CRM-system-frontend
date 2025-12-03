@@ -7,6 +7,7 @@ export const GenericTable = ({
   bodyText,
   columns,
   toggleActive,
+  toggleForChange,
   nextHandler,
   hasMore,
 }) => {
@@ -53,6 +54,7 @@ export const GenericTable = ({
                 <td>
                   <button
                     className={`td-button ${index % 2 === 0 ? "even" : "odd"}`}
+                    onClick={() => {toggleForChange(row.id)}}
                   >
                     <img src={Edit} alt="Редактировать" />
                   </button>

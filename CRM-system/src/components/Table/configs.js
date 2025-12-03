@@ -1,3 +1,21 @@
+export const columnsInWorkCars = [
+  "id",
+  "brand",
+  "model",
+  "yearOfManufacture",
+  "vinNumber",
+  "stateNumber",
+  "mileage",
+];
+export const headTextInWorkCars = [
+  "№",
+  "Производитель",
+  "Модель",
+  "Год",
+  "VIN номер",
+  "Номер",
+  "Пробег",
+];
 export const columnsParts = [
   "id",
   "orderId",

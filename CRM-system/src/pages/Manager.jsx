@@ -14,6 +14,7 @@ import Task from "../../src/assets/svg/Task.svg";
 import Bills from "../../src/assets/svg/Bills.svg";
 import Journal from "../../src/assets/svg/Journal.svg";
 import Tax from "../../src/assets/svg/Nalogi.svg";
+import ChangeMenu from "../components/Change_menu/ChangeMenu";
 
 const navButtonsConfig = [
   { text: "Главная", value: "main", icon: Home },
@@ -36,6 +37,7 @@ function Manager() {
   const [activeFoolMenu, setActiveFoolMenu] = useState(false);
   const [activeExitMenu, setActiveExitMenu] = useState(false);
   const [activeDetailing, setActiveDetailing] = useState(null);
+  const [forChange, setForChange] =  useState(null);
   const [activeTable, setActiveTable] = useState("main");
   return (
     <>
@@ -65,6 +67,8 @@ function Manager() {
           activeFoolMenu={activeFoolMenu} 
           activeDetailing={activeDetailing}
           setActiveDetailing={setActiveDetailing}
+          forChange={forChange}
+          setForChange={setForChange}
         />
       </div>
       <div
@@ -79,6 +83,13 @@ function Manager() {
         />
       </div>
       <Footer />
+      <ChangeMenu 
+        isOpen={forChange !== null}
+        // onClose={}
+        activeTable={activeTable}
+        IdForChange={forChange}
+        // setPage={}
+      />
     </>
   );
 }

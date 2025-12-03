@@ -22,7 +22,7 @@ import "./Table.css";
 import { getWorkProposalInWork, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
 import { getSpecializations } from "../../redux/Actions/specialization";
 import { getSuppliers } from "../../redux/Actions/suppliers";
-import { getWorksWithInfo } from "../../redux/Actions/works";
+import { getMyWorks, getWorksWithInfo } from "../../redux/Actions/works";
 import {
   columnsBills,
   columnsBillsClient,
@@ -30,6 +30,7 @@ import {
   columnsClients,
   columnsExpenses,
   columnsHistoryClient,
+  columnsInWorkCars,
   columnsJournal,
   columnsJournalClient,
   columnsOrdersClient,
@@ -49,6 +50,7 @@ import {
   headTextClients,
   headTextExpenses,
   headTextHistoryClient,
+  headTextInWorkCars,
   headTextJournal,
   headTextJournalClient,
   headTextOrders,
@@ -63,8 +65,9 @@ import {
   headTextWorks,
   headTextWorksForCar,
 } from "./configs";
+import { getInWorkCars } from "../../redux/Actions/cars";
 
-function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing }) {
+function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing, forChange, setForChange }) {
 
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
@@ -73,6 +76,10 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
 
   const toggleActiveRow = (rowId) => {
     setActiveDetailing((prev) => (prev === rowId ? null : rowId))
+  }
+
+  const toggleForChange = (Id) => {
+    setForChange((prev) => (prev === Id ? null : Id))
   }
 
   useEffect(() => {
@@ -113,6 +120,8 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   const workProposalForCar = useSelector((state) => state.workProposals.workProposalsForCar);
   const workProposalInWork = useSelector((state) => state.workProposals.workProposalsInWork);
   const workForCars = useSelector((state) => state.works.worksForCar);
+  const workForWorker = useSelector((state) => state.works.myWorks);
+  const carsInWork = useSelector((state) => state.cars.inWorkCars);
   
   const totalCatalog = useSelector(
     (state) => state.catalogOfWorks.totalCatalog
@@ -129,6 +138,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   );
   const totalSuppliers = useSelector((state) => state.suppliers.totalSuppliers);
   const totalWorks = useSelector((state) => state.works.worksWithInfoTotal);
+  const totalWorkForWorker = useSelector((state) => state.works.myWorksTotal);
   const totalWorkProposals = useSelector(
     (state) => state.workProposals.workProposalsWithInfoTotal
   );
@@ -153,6 +163,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   );
   const totalTaxes = useSelector((state) => state.taxes.totalTaxes);
   const totalExpenses = useSelector((state) => state.expenses.expensesTotal);
+  const totalCarsInWork = useSelector((state) => state.cars.inWorkCarsTotal);
 
   const tableConfig = {
     orders: {
@@ -185,6 +196,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       action: getClients,
       columns: columnsClients,
       headText: headTextClients,
+      needsDetailing: true,
+    },
+    carsWorker: {
+      data: carsInWork,
+      total: totalCarsInWork,
+      action: getInWorkCars,
+      columns: columnsInWorkCars,
+      headText: headTextInWorkCars,
       needsDetailing: true,
     },
     workers: {
@@ -331,6 +350,14 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
       headText: headTextWorksForCar,
       needsDetailing: false,
     },
+    worksWorker: {
+      data: workForWorker,
+      total: totalWorkForWorker,
+      action: getMyWorks,
+      columns: columnsWorks,
+      headText: headTextWorks,
+      needsDetailing: false,
+    },
     proposalsForCar: {
       data: workProposalForCar.filter((prop) => prop.statusName !== "Принят"), 
       total: null,
@@ -399,6 +426,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
           bodyText={dataForRender || []}
           columns={cfg.columns}
           toggleActive={toggleActiveRow}
+          toggleForChange={toggleForChange}
           nextHandler={cfg.action ? nextHandler : undefined}
           hasMore={cfg.action ? hasMore : false}
         />
