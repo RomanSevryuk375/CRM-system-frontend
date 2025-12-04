@@ -12,6 +12,7 @@ import Toolbar from "../components/Toolbar/Toolbar";
 import Works from "../assets/svg/Works.svg";
 import Details from "../assets/svg/Details.svg";
 import Home from "../../src/assets/svg/Home.svg";
+import ChangeMenu from "../components/Change_menu/ChangeMenu";
 
 const navButtonsConfig = [
   { text: "Автомобили", value: "carsWorker", icon: Home },
@@ -27,6 +28,7 @@ function PersonalPage() {
   const [activeExitMenu, setActiveExitMenu] = useState(false);
   const [activeTable, setActiveTable] = useState("carsWorker");
   const [isMod, setIsMod] = useState(false);
+  const [forChange, setForChange] =  useState(null);
   const [page, setPage] = useState(1);
   return (
     <>
@@ -63,11 +65,22 @@ function PersonalPage() {
           setIsMod={setIsMod}
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
+          forChange={forChange}
+          setForChange={setForChange}
+          setPage={setPage}
+          page={page}
         />
       </div>
       <ExitModal
         activeExitMenu={activeExitMenu}
         setActiveExitMenu={setActiveExitMenu}
+      />
+      <ChangeMenu 
+        isOpen={forChange !== null}
+        onClose={() => setForChange(null)}
+        activeTable={activeTable}
+        IdForChange={forChange}
+        setPage={setPage}
       />
     </>
   );

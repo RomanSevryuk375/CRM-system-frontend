@@ -21,7 +21,7 @@ const initialState = {
     workersWithInfo: [],
     workersWithInfoTotal: 0,
 
-    myWorker: null,
+    myWorker: [],
 
     isWorkersWithInfoLoading: true,
     isMyWorkerLoading: true,

@@ -3,6 +3,7 @@ import Edit from "../../assets/svg/Edit.svg";
 import Sort from "../../assets/svg/Sort.svg";
 
 export const GenericTable = ({
+  activeTable,
   headText,
   bodyText,
   columns,
@@ -20,7 +21,11 @@ export const GenericTable = ({
     >
       <div
         id="container"
-        className="table-container"
+        className={`table-container ${
+          activeTable === "worksForCar" || activeTable === "proposalsForCar"
+            ? "smaller"
+            : "default"
+        }`}
       >
         <table className="tableMarking">
           <thead className="thead">
@@ -54,7 +59,10 @@ export const GenericTable = ({
                 <td>
                   <button
                     className={`td-button ${index % 2 === 0 ? "even" : "odd"}`}
-                    onClick={() => {toggleForChange(row.id)}}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleForChange(row.id);
+                    }}
                   >
                     <img src={Edit} alt="Редактировать" />
                   </button>

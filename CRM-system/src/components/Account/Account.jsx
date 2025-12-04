@@ -7,9 +7,11 @@ import ExitModal from "../ExitModal/ExitModal";
 
 import "./Account.css";
 import { useNavigate } from "react-router-dom";
+import { getMyWorker } from "../../redux/Actions/workers";
 
 function Account({ registrationIsOpen, setRegistrationIsOpen }) {
   const myClient = useSelector((state) => state.clients.myClient);
+  const myWorker = useSelector((state) => state.workers.myWorker);
   const isLoggedIn = useSelector((state) => state.users.isLoggedIn);
   const usersId = useSelector((state) => state.users.userRoleId);
 
@@ -20,12 +22,15 @@ function Account({ registrationIsOpen, setRegistrationIsOpen }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && usersId === 2) {
       dispatch(getMyClient({}));
+    }
+    if (isLoggedIn && usersId === 3) {
+      dispatch(getMyWorker({}));
     }
   }, [isLoggedIn, dispatch]);
   console.log("myClient =", myClient);
-
+  console.log("myWorker =", myWorker);
   const toggleRouting = (id) => {
     switch (id) {
       case 1:
@@ -52,6 +57,19 @@ function Account({ registrationIsOpen, setRegistrationIsOpen }) {
       </button>
     );
   }
+  
+  let currentData = {};
+
+  switch (usersId) {
+    case 2:
+      currentData = myClient;
+      break;
+    case 3:
+      currentData = myWorker;
+      break;
+    default:
+      break;
+  }
 
   return (
     <>
@@ -64,16 +82,16 @@ function Account({ registrationIsOpen, setRegistrationIsOpen }) {
         <div className="Aprofle-content">
           <div className="profile-mini-cli">
             <p className="profile-mini-text-cli">
-              {myClient[0]?.name?.[0]}
-              {myClient[0]?.surname?.[0]}
+              {currentData[0]?.name?.[0]}
+              {currentData[0]?.surname?.[0]}
             </p>
           </div>
 
           <div className="profile-user-role-cli">
             <h1 className="profile-user-cli">
-              {myClient[0]?.name} {myClient[0]?.surname}
+              {currentData[0]?.name} {currentData[0]?.surname}
             </h1>
-            <p className="profile-role-cli">{myClient[0]?.email}</p>
+            <p className="profile-role-cli">{currentData[0]?.email}</p>
           </div>
         </div>
         {activeUserMenu && (
