@@ -1,16 +1,7 @@
-.table-container.default{
+.table-container{
     transition: all 0.3s ease-in-out;
     width: 100%;
-    height: 85vh;
-    background-color: #F1F3F5;
-    overflow-y: auto;
-    scroll-behavior: smooth;
-}
-
-.table-container.smaller{
-    transition: all 0.3s ease-in-out;
-    width: 100%;
-    height: 23vh;
+    height: 100%;
     background-color: #F1F3F5;
     overflow-y: auto;
     scroll-behavior: smooth;

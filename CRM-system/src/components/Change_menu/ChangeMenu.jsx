@@ -295,22 +295,6 @@ function ChangeMenu({ isOpen, onClose, activeTable, setPage, IdForChange }) {
         }));
       });
     }
-    if (isOpen && activeTable === "worksWorker") {
-      dispatch(getStatuses()).then(() => {
-        const statuses = allStatuses || [];
-        const filteredStatuses = statuses.filter((status) => status.id === 4 || status.id === 9);
-
-        const mappedStatuses = filteredStatuses.map((status) => ({
-          value: status.id,
-          label: status.name,
-        }));
-
-        setOptions((prev) => ({
-          ...prev,
-          statuses: mappedStatuses,
-        }));
-      });
-    }
     if (isOpen && activeTable === "parts") {
       dispatch(getOrdersWithInfo(1)).then(() => {
         const orders = allOrders || [];

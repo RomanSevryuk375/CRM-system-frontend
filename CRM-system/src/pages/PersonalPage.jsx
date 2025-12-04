@@ -53,8 +53,6 @@ function PersonalPage() {
           setIsMod={setIsMod}
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
-          setPage={setPage}
-          page={page}
         />
       </div>
       <ExitModal

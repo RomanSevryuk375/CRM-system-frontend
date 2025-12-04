@@ -55,9 +55,9 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
       dataLength={myCars.length}
       next={nextHandler}
       hasMore={hasMore}
-      scrollableTarget="CardContainer"
+      scrollableTarget="container"
     >
-      <div className="car-card-screen" id="CardContainer">
+      <div className="car-card-screen" id="container">
         {myCars.map((item) => (
           <div
             key={item.id}
@@ -154,8 +154,6 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                       activeTable={"worksForCar"}
                       activeDetailing={activeDetailing}
                       setActiveDetailing={setActiveDetailing}
-                      page={page}
-                      setPage={setPage}
                     />
                   </div>
                   <h1 className="CCexpanded-table-label">Предложения</h1>
@@ -163,9 +161,7 @@ function CarCard({ isMod, setIsMod, page, setPage }) {
                     <Table 
                       activeTable={"proposalsForCar"}
                       activeDetailing={activeDetailing}
-                      setActiveDetailing={setActiveDetailing} 
-                      page={page}
-                      setPage={setPage}                   
+                      setActiveDetailing={setActiveDetailing}                    
                     />
                   </div>
                 </div>

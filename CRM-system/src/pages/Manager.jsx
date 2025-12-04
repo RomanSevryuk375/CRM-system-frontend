@@ -38,7 +38,6 @@ function Manager() {
   const [activeExitMenu, setActiveExitMenu] = useState(false);
   const [activeDetailing, setActiveDetailing] = useState(null);
   const [forChange, setForChange] =  useState(null);
-  const [page, setPage] = useState(1);
   const [activeTable, setActiveTable] = useState("main");
   return (
     <>
@@ -70,8 +69,6 @@ function Manager() {
           setActiveDetailing={setActiveDetailing}
           forChange={forChange}
           setForChange={setForChange}
-          setPage={setPage}
-          page={page}
         />
       </div>
       <div
@@ -82,16 +79,16 @@ function Manager() {
         <Toolbar
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
-          setPage={setPage}
+          // setPage={setPage}
         />
       </div>
       <Footer />
       <ChangeMenu 
         isOpen={forChange !== null}
-        onClose={() => setForChange(null)}
+        // onClose={}
         activeTable={activeTable}
         IdForChange={forChange}
-        setPage={setPage}
+        // setPage={}
       />
     </>
   );

@@ -16,7 +16,7 @@ import {
 
 const initialeState = {
     clients: [],
-    myClient: {},
+    myClient: [],
     isClientsLoading: true,
     totalClients: 0,
 };

@@ -67,9 +67,10 @@ import {
 } from "./configs";
 import { getInWorkCars } from "../../redux/Actions/cars";
 
-function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing, setForChange, page, setPage }) {
+function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing, forChange, setForChange }) {
 
   const dispatch = useDispatch();
+  const [page, setPage] = useState(1);
   const isLoadingRef = useRef(false);
   const isSwitchingTable = useRef(false);
 
@@ -388,7 +389,6 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
   }, [page, activeTable, dispatch]);
 
   const nextHandler = () => {
-    console.log('nextHandler invoked, page:', page);
     if (isLoadingRef.current) return;
     const cfg = tableConfig[activeTable];
     if (!cfg) return;
@@ -422,7 +422,6 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
     return (
       <>
         <GenericTable
-        activeTable={activeTable}
           headText={cfg.headText}
           bodyText={dataForRender || []}
           columns={cfg.columns}
