@@ -11,6 +11,7 @@ import ExitModal from "../components/ExitModal/ExitModal";
 import Navigation from "../components/Navigation/Navigation";
 import Table from "../components/Table/Table";
 import Toolbar from "../components/Toolbar/Toolbar";
+import ChangeMenu from "../components/Change_menu/ChangeMenu";
 
 const navButtonsConfig = [
   { text: "Главная", value: "mainClient", icon: Home },
@@ -25,6 +26,7 @@ function PersonalPage() {
   const [activeExitMenu, setActiveExitMenu] = useState(false);
   const [activeTable, setActiveTable] = useState("mainClient");
   const [isMod, setIsMod] = useState(false);
+  const [forChange, setForChange] =  useState(null);
   const [page, setPage] = useState(1);
   return (
     <>
@@ -53,11 +55,22 @@ function PersonalPage() {
           setIsMod={setIsMod}
           activeTable={activeTable}
           activeFoolMenu={activeFoolMenu}
+          forChange={forChange}
+          setForChange={setForChange}
+          page={page}
+          setPage={setPage}
         />
       </div>
       <ExitModal
         activeExitMenu={activeExitMenu}
         setActiveExitMenu={setActiveExitMenu}
+      />
+      <ChangeMenu 
+        isOpen={forChange !== null}
+        onClose={() => setForChange(null)}
+        activeTable={activeTable}
+        IdForChange={forChange}
+        setPage={setPage}
       />
     </>
   );

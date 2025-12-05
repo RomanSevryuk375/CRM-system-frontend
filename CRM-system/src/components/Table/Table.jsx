@@ -19,7 +19,7 @@ import { getTaxes } from "../../redux/Actions/taxes";
 import { getUsedPartsInWork, getUsedPartsWithInfo } from "../../redux/Actions/usedParts";
 import { getWorkerWithInfo } from "../../redux/Actions/workers";
 import "./Table.css";
-import { getWorkProposalInWork, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
+import { getWorkProposalForCar, getWorkProposalInWork, getWorkProposalWithInfo } from "../../redux/Actions/workProposals";
 import { getSpecializations } from "../../redux/Actions/specialization";
 import { getSuppliers } from "../../redux/Actions/suppliers";
 import { getMyWorks, getWorksWithInfo } from "../../redux/Actions/works";
@@ -67,10 +67,9 @@ import {
 } from "./configs";
 import { getInWorkCars } from "../../redux/Actions/cars";
 
-function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing, forChange, setForChange }) {
+function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetailing, forChange, setForChange, setPage, page }) {
 
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
   const isLoadingRef = useRef(false);
   const isSwitchingTable = useRef(false);
 
@@ -361,7 +360,7 @@ function Table({ activeTable, isMod, setIsMod, setActiveDetailing, activeDetaili
     proposalsForCar: {
       data: workProposalForCar.filter((prop) => prop.statusName !== "Принят"), 
       total: null,
-      action: null,
+      action: getWorkProposalForCar,
       columns: columnsProposalsForCar,
       headText: headTextProposalsForCar,
       needsDetailing: false,

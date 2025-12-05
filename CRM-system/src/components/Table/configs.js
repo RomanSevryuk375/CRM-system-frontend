@@ -67,10 +67,10 @@ export const headTextTaxes = ["№", "Название", "Ставка", "Тип
 export const columnsExpenses = [
   "id",
   "date",
-  "method",
-  "tax_id",
-  "used_parts_id",
-  "type",
+  "category",
+  "taxName",
+  "usedPartInfo",
+  "expenseType",
   "sum",
 ];
 export const headTextExpenses = [

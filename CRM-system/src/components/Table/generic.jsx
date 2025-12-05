@@ -30,7 +30,10 @@ export const GenericTable = ({
                 <th key={item} className="сolumn-names">
                   <div className="сolumn-elements">
                     <p className="names">{item}</p>
-                    <button className="button-sort">
+                    <button 
+                      className="button-sort"
+                      onClick={() => onSort(columns[index])}
+                    >
                       <img
                         className="button-sort-img"
                         src={Sort}

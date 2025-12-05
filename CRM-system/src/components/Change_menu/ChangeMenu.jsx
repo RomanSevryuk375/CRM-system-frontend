@@ -38,6 +38,7 @@ import {
   MODAL_TITLE_WORKER_UPDATE,
   TOOLBAR_CONTENT_CAR_UPDATE,
   TOOLBAR_CONTENT_CLIENT_UPDATE,
+  TOOLBAR_CONTENT_EXPENSE_UPDATE,
   TOOLBAR_CONTENT_ORDER_UPDATE,
   TOOLBAR_CONTENT_PAYMENT_NOTE_UPDATE,
   TOOLBAR_CONTENT_SPECIALIZATION_UPDATE,
@@ -832,7 +833,7 @@ function ChangeMenu({ isOpen, onClose, activeTable, setPage, IdForChange }) {
       currentFields = getExpenseFields(options);
       currentHandleSubmit = submitExpensesForm;
       currentModalTitle = MODAL_TITLE_EXPENSE_UPDATE;
-      currentToolbarContent = MODAL_TITLE_EXPENSE_UPDATE;
+      currentToolbarContent = TOOLBAR_CONTENT_EXPENSE_UPDATE;
       break;
     case "propossals":
       currentFields = getWorkProposalFields(options);
